@@ -74,6 +74,14 @@ Module.register("MMM-Chart",{
 		if (notification === "DATA_RESULT") {
 			this.result= payload;
 			Log.info('payload: ' + this.result);
+			payload = JSON.parse(payload);
+			this.chartData.datasets[0].data = [];
+			this.chartData.labels = [];
+			for (var i = 0, toI= payload.length; i < toI; i++) {
+				this.chartData.labels.push(payload[i][0]);
+				this.chartData.datasets[0].data.push(payload[i][1]);
+			}
+			this.updateChartData();
 			//this.updateDom(self.config.fadeSpeed);
 		}
 	},
@@ -111,21 +119,22 @@ Module.register("MMM-Chart",{
 			data: {
 				labels: [],
 				datasets: [{
-					label: "Gewicht",
+					label: "Temp",
 					yAxisID: "y-axis-0",
 					borderColor: "rgba(255, 255, 255, 1)",
 					backgroundColor: "rgba(255, 255, 255, 1)",
 					fill: false,
 					data: [],
-				},
-				{
+				}
+/*				{
 					label: "Vet",
 					yAxisID: "y-axis-1",
 					borderColor: "rgba(153, 153, 153, 1)",
 					backgroundColor: "rgba(153, 153, 153, 1)",
 					fill: false,
 					data: []
-				}]
+				}*/
+				]
 			},
 			options: {
 				responsive: true,
@@ -136,13 +145,13 @@ Module.register("MMM-Chart",{
 					mode: "x",
 					callbacks: {
 						title: function(ti, data) {
-							return moment(ti[0].xLabel).format("YYYY-MM-DD");
+							return moment(ti[0].xLabel).format("HH:mm:ss");
 						},
 						label: function(ti, data) {
 							if (ti.datasetIndex == 0) {
 								return data.datasets[ti.datasetIndex].data[ti.index] + " C";
-							} else if(ti.datasetIndex == 1) {
-								return data.datasets[ti.datasetIndex].data[ti.index] + " %";
+/*							} else if(ti.datasetIndex == 1) {
+								return data.datasets[ti.datasetIndex].data[ti.index] + " %";*/
 							} else {
 								return data.datasets[ti.datasetIndex].data[ti.index].toString();
 							}
@@ -160,10 +169,11 @@ Module.register("MMM-Chart",{
 					xAxes: [{
 						type: "time",
 						time: {
-							unit: "month",
+							unit: "hour",
+							//unit: "month",
 							//unit: "quarter",
 							displayFormats: {
-								month: "YYYY-MM-DD"
+								hour: "HH:mm"
 							},
 						},
 						gridLines: {
@@ -187,7 +197,7 @@ Module.register("MMM-Chart",{
 							}
 						}
 					},
-					{
+/*					{
 						position: "right",
 						id: "y-axis-1",
 						scaleLabel: {
@@ -203,7 +213,8 @@ Module.register("MMM-Chart",{
 								return val + "%";
 							}
 						}
-					}]
+					}*/
+					]
 				}
 			}
 		});
