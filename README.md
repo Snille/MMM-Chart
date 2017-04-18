@@ -5,20 +5,9 @@
 			position: 'top_center',
 			header: 'Chart',
 			config: {
-				samples: [
-					[new Date(2017, 0, 5), 80, 14],
-					[new Date(2017, 1, 1), 78.4, 8],
-					[new Date(2017, 2, 2), 77.2, 7],
-					[new Date(2017, 3, 5), 76.8, 6],
-					[new Date(2017, 4, 0), 76.4, 7],
-					[new Date(2017, 5, 3), 76.4, 6],
-					[new Date(2017, 6, 5), 75.9, 6],
-					[new Date(2017, 7, 1), 75.8, 6],
-					[new Date(2017, 8, 4), 75.9, 7],
-					[new Date(2017, 9, 6), 76, 6],
-					[new Date(2017, 10, 2), 76.8, 5],
-					[new Date(2017, 11, 4), 78, 5],
-				]
+				// URL that gives a json table back.
+				// Like this [["DATE Time",floarnumber]] = [["2017-04-18 23:00:02",-1.2],["2017-04-18 22:40:02",-0.7],["2017-04-18 22:20:03",-0.2],["2017-04-18 22:00:04",0.8]]
+				url: "http://10.0.0.20/housedata/index.php?id=3&max=44&sort=desc",
 			}
 		},
 ````

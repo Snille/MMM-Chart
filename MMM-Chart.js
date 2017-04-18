@@ -21,7 +21,13 @@ Module.register("MMM-Chart",{
 		// Animation speed.
 		fadeSpeed: 1000,
 		// URL to fetch data from.
-		url: "http://10.0.0.20/housedata/index.php?id=20&max=20&sort=desc"
+//		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc"
+		url: "http://10.0.0.20/housedata/index.php?id=20&max=144&sort=desc",
+		//unit: "day",
+		unit: "hour",
+		//unit: "month",
+		//unit: "quarter",
+
 	},
 
 	// Get the Module CSS.
@@ -45,25 +51,8 @@ Module.register("MMM-Chart",{
 		// Triggers the get data.
 		this.getData(this.config.url);
 		
-		var self = this;
-		
-		//Log.info('Sample: ' + self.config.samples);
-		
-		this.refInterval = window.setInterval(function() {
-			var sample = self.config.samples[self.dataid];
-			self.chartData.labels.push(sample[0]);
-			for(var i=0; i<sample.length - 1; ++i) {
-				if(i >= self.chartData.datasets.length) {
-					self.chartData.datasets.push([]);
-				}
-				self.chartData.datasets[i].push(sample[i + 1]);
-			}
-			self.updateChartData();
-
-			if(++self.dataid >= self.config.samples.length) {
-				window.clearInterval(self.refInterval);
-			}
-		}, 0);
+		// Setup the data variable.
+		this.chartData.datasets[0] = { data:[] };
 	},
 	
 	getData: function (url) {
@@ -73,9 +62,9 @@ Module.register("MMM-Chart",{
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "DATA_RESULT") {
 			//this.result = payload;
-			//Log.info('payload: ' + this.result);
-			payload = JSON.parse(payload);
 			Log.info('payload: ' + payload);
+			payload = JSON.parse(payload);
+			Log.info('JSON parsed payload: ' + payload);
 			this.chartData.datasets[0].data = [];
 			this.chartData.labels = [];
 			for (var i = 0, toI = payload.length; i < toI; i++) {
@@ -102,8 +91,9 @@ Module.register("MMM-Chart",{
 	updateChartData: function() {
 		if(this.myChart !== undefined) {
 			this.myChart.data.labels = this.chartData.labels;
-			for(var i=0; i<this.myChart.data.datasets.length && i<this.chartData.datasets.length; ++i) {
-				this.myChart.data.datasets[i].data = this.chartData.datasets[i];
+			for(var i=0; i<this.myChart.data.datasets.length && i<this.chartData.datasets.length; i++) {
+				this.myChart.data.datasets[i].data = this.chartData.datasets[i].data;
+
 			}
 			this.myChart.update();
 		}
@@ -126,15 +116,17 @@ Module.register("MMM-Chart",{
 					backgroundColor: "rgba(255, 255, 255, 1)",
 					fill: false,
 					data: [],
-				}
-/*				{
+				},
+/*
+				{
 					label: "Vet",
 					yAxisID: "y-axis-1",
 					borderColor: "rgba(153, 153, 153, 1)",
 					backgroundColor: "rgba(153, 153, 153, 1)",
 					fill: false,
 					data: []
-				}*/
+				}
+*/
 				]
 			},
 			options: {
@@ -151,8 +143,10 @@ Module.register("MMM-Chart",{
 						label: function(ti, data) {
 							if (ti.datasetIndex == 0) {
 								return data.datasets[ti.datasetIndex].data[ti.index] + " C";
-/*							} else if(ti.datasetIndex == 1) {
-								return data.datasets[ti.datasetIndex].data[ti.index] + " %";*/
+/*
+							} else if(ti.datasetIndex == 1) {
+								return data.datasets[ti.datasetIndex].data[ti.index] + " %";
+*/
 							} else {
 								return data.datasets[ti.datasetIndex].data[ti.index].toString();
 							}
@@ -170,9 +164,7 @@ Module.register("MMM-Chart",{
 					xAxes: [{
 						type: "time",
 						time: {
-							unit: "hour",
-							//unit: "month",
-							//unit: "quarter",
+							unit: this.config.unit,
 							displayFormats: {
 								hour: "HH:mm"
 							},
@@ -198,7 +190,8 @@ Module.register("MMM-Chart",{
 							}
 						}
 					},
-/*					{
+/*
+					{
 						position: "right",
 						id: "y-axis-1",
 						scaleLabel: {
@@ -214,7 +207,8 @@ Module.register("MMM-Chart",{
 								return val + "%";
 							}
 						}
-					}*/
+					}
+*/
 					]
 				}
 			}
