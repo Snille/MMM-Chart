@@ -21,7 +21,7 @@ Module.register("MMM-Chart",{
 		// Animation speed.
 		fadeSpeed: 1000,
 		// URL to fetch data from.
-		url: "http://10.0.0.20/housedata/index.php?id=20&max=10&sort=desc"
+		url: "http://10.0.0.20/housedata/index.php?id=20&max=20&sort=desc"
 	},
 
 	// Get the Module CSS.
@@ -72,12 +72,13 @@ Module.register("MMM-Chart",{
 
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "DATA_RESULT") {
-			this.result= payload;
-			Log.info('payload: ' + this.result);
+			//this.result = payload;
+			//Log.info('payload: ' + this.result);
 			payload = JSON.parse(payload);
+			Log.info('payload: ' + payload);
 			this.chartData.datasets[0].data = [];
 			this.chartData.labels = [];
-			for (var i = 0, toI= payload.length; i < toI; i++) {
+			for (var i = 0, toI = payload.length; i < toI; i++) {
 				this.chartData.labels.push(payload[i][0]);
 				this.chartData.datasets[0].data.push(payload[i][1]);
 			}
