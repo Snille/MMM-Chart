@@ -1,0 +1,25 @@
+{
+  "name": "MMM-Chart",
+  "version": "1.0.0",
+  "description": "This module for the Magic Mirror 2 for rendering graphs from a json source.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snille/MMM-Chart"
+  },
+  "keywords": [
+    "magic mirror",
+    "smart mirror",
+    "module",
+    "graph"
+  ],
+  "author": "Erik Pettersson",
+  "contributors": "git+https://github.com/snille/MMM-Chart/graphs/contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "git+https://github.com/snille/MMM-Chart/issues"
+  },
+  "homepage": "git+https://github.com/snille/MMM-Chart#readme",
+  "dependencies": {
+    "request": "latest"
+  }
+}
