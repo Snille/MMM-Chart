@@ -3,7 +3,7 @@ var request = require('request');
 
 module.exports = NodeHelper.create({
   start: function () {
-    console.log('Dynachart helper started...');
+    console.log('MMM-Chart helper started...');
   },
 
   getData: function (url) {

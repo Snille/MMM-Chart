@@ -7,8 +7,6 @@
  * Based on dynchart module by Chris van Marle
  * MIT Licensed.
  */
-
-//var request = require('request');
  
 Module.register("MMM-Chart",{
 
@@ -21,8 +19,9 @@ Module.register("MMM-Chart",{
 		// Animation speed.
 		fadeSpeed: 1000,
 		// URL to fetch data from.
-//		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc"
-		url: "http://10.0.0.20/housedata/index.php?id=20&max=144&sort=desc",
+//		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc",
+		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc",
+//		url: "http://10.0.0.20/housedata/index.php?id=20&max=5&sort=desc",
 		//unit: "day",
 		unit: "hour",
 		//unit: "month",
@@ -61,15 +60,26 @@ Module.register("MMM-Chart",{
 
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "DATA_RESULT") {
-			//this.result = payload;
-			Log.info('payload: ' + payload);
+			//Log.info('payload: ' + payload);
+
 			payload = JSON.parse(payload);
 			Log.info('JSON parsed payload: ' + payload);
+			Log.info('JSON parsed payload S20: ' + payload.s20);
+			Log.info('JSON parsed payload S21: ' + payload.s21);
+
+			// How can it be?!
+			le = payload.s21.length;
+			Log.info('Length: ' + le);
+
+
 			this.chartData.datasets[0].data = [];
-			this.chartData.labels = [];
-			for (var i = 0, toI = payload.length; i < toI; i++) {
-				this.chartData.labels.push(payload[i][0]);
-				this.chartData.datasets[0].data.push(payload[i][1]);
+			//this.chartData.labels = [];
+
+			
+			
+			for (var i = 0, toI = payload.s20.length ; i < toI; i++) {
+				this.chartData.labels.push(payload.s20[i][0]);
+				this.chartData.datasets[0].data.push(payload.s20[i][1]);
 			}
 			this.updateChartData();
 			//this.updateDom(self.config.fadeSpeed);
@@ -91,7 +101,7 @@ Module.register("MMM-Chart",{
 	updateChartData: function() {
 		if(this.myChart !== undefined) {
 			this.myChart.data.labels = this.chartData.labels;
-			for(var i=0; i<this.myChart.data.datasets.length && i<this.chartData.datasets.length; i++) {
+			for(var i = 0; i < this.myChart.data.datasets.length && i < this.chartData.datasets.length; i++) {
 				this.myChart.data.datasets[i].data = this.chartData.datasets[i].data;
 
 			}
