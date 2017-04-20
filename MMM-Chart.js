@@ -52,6 +52,7 @@ Module.register("MMM-Chart",{
 		
 		// Setup the data variable.
 		this.chartData.datasets[0] = { data:[] };
+		this.chartData.datasets[1] = { data:[] };
 	},
 	
 	getData: function (url) {
@@ -67,19 +68,27 @@ Module.register("MMM-Chart",{
 			Log.info('JSON parsed payload S20: ' + payload.s20);
 			Log.info('JSON parsed payload S21: ' + payload.s21);
 
-			// How can it be?!
+			Log.info('Value ' + JSON.stringify(payload.s21));
+			
+			// How can it be 10?!
 			le = payload.s21.length;
 			Log.info('Length: ' + le);
 
 
 			this.chartData.datasets[0].data = [];
+			this.chartData.datasets[1].data = [];
 			//this.chartData.labels = [];
 
 			
-			
-			for (var i = 0, toI = payload.s20.length ; i < toI; i++) {
-				this.chartData.labels.push(payload.s20[i][0]);
-				this.chartData.datasets[0].data.push(payload.s20[i][1]);
+			for (var i = 0, toI = payload.s20.length; i < toI; i++) {
+				Log.info(i + ' Data 20 = ' + payload.s20[i]);
+				Log.info(i + ' Data 21 = ' + payload.s21[i]);
+/*
+				this.chartData.labels.push(payload.s20[i]);
+//				this.chartData.labels.push(payload.s21[i]);
+				this.chartData.datasets[0].data.push(payload.s20[i]);
+				this.chartData.datasets[1].data.push(payload.s21[i]);
+*/
 			}
 			this.updateChartData();
 			//this.updateDom(self.config.fadeSpeed);
@@ -127,7 +136,7 @@ Module.register("MMM-Chart",{
 					fill: false,
 					data: [],
 				},
-/*
+
 				{
 					label: "Vet",
 					yAxisID: "y-axis-1",
@@ -136,7 +145,7 @@ Module.register("MMM-Chart",{
 					fill: false,
 					data: []
 				}
-*/
+
 				]
 			},
 			options: {
@@ -153,10 +162,10 @@ Module.register("MMM-Chart",{
 						label: function(ti, data) {
 							if (ti.datasetIndex == 0) {
 								return data.datasets[ti.datasetIndex].data[ti.index] + " C";
-/*
+
 							} else if(ti.datasetIndex == 1) {
 								return data.datasets[ti.datasetIndex].data[ti.index] + " %";
-*/
+
 							} else {
 								return data.datasets[ti.datasetIndex].data[ti.index].toString();
 							}
@@ -200,7 +209,7 @@ Module.register("MMM-Chart",{
 							}
 						}
 					},
-/*
+
 					{
 						position: "right",
 						id: "y-axis-1",
@@ -218,7 +227,7 @@ Module.register("MMM-Chart",{
 							}
 						}
 					}
-*/
+
 					]
 				}
 			}
