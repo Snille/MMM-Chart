@@ -20,6 +20,6 @@
   },
   "homepage": "git+https://github.com/snille/MMM-Chart#readme",
   "dependencies": {
-    "request": "latest"
+    "chart.js": "latest"
   }
 }
