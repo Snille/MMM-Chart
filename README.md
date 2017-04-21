@@ -6,8 +6,8 @@
 			header: "Chart",
 			config: {
 				// URL that gives a json table back.
-				// Like this {"Graph Line 1":["YYYY-MM-DD HH:mm",floatnumber],"Graph Line 2":["YYYY-MM-DD HH:mm",floatnumber]}
-				// Example: {"graph1":["2017-04-18 23:00:02",-1.2],["2017-04-18 22:40:02",-0.7],["2017-04-18 22:20:03",-0.2],["2017-04-18 22:00:04",0.8],"graph2":[""2017-04-18 23:00:02",-1.2],["2017-04-18 22:40:02",-0.7],["2017-04-18 22:20:03",-0.2],["2017-04-18 22:00:04",0.8]}
+				// Like this [["YYYY-MM-DD HH:mm",floatnumber,floatnumber],["YYYY-MM-DD HH:mm",floatnumber,floatnumber]] Gives two graphs.
+				// Example: [["2017-04-21 15:58:00",8.3,95.5],["2017-04-21 14:55:00",9.3,90.5],["2017-04-21 12:56:00",10.7,87.7],["2017-04-21 11:53:00",10.5,87.7],["2017-04-21 11:01:00",10.6,88.8]]
 				url: "http://your.json.url.here"
 			}
 		},

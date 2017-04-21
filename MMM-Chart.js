@@ -18,15 +18,11 @@ Module.register("MMM-Chart",{
 		updateInterval: 60000,
 		// Animation speed.
 		fadeSpeed: 1000,
-		// URL to fetch data from.
 
-		// Two graphs.
-//		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc",
-//		url: "http://10.0.0.20/housedata/multiindex.php?id=20&max=5&sort=desc",
-
-		// One graph only.
-//		url: "http://10.0.0.20/housedata/index.php?id=20&max=5&sort=desc",
-		url: "http://10.0.0.20/housedata/index.php?id=3&max=144&sort=desc",
+		// URL to graph data.
+//		url: "http://10.0.0.20/housedata/index1.php?id=20&max=5&sort=desc",
+//		url: "http://10.0.0.20/housedata/index1.php?id=3&max=144&sort=desc",
+		url: "http://10.0.0.20/housedata/index2.php?id=9,10&max=50&sort=desc",
 
 		// Timeunit the graphs should be ploted in.
 		// Checkout: http://momentjs.com/docs/#/displaying/format/
@@ -55,7 +51,7 @@ Module.register("MMM-Chart",{
 		showGraphLabels: true,
 		// Box before text.  R    G    B   Weight
 		boxFontColor: "rgba(153, 153, 153, 0.6)",
-		boxWidth: 10,
+		boxWidth: 2,
 		// Text after the box.
 		graph1Label: "Temprature C",
 		graph2Label: "Humidity %",
@@ -68,17 +64,17 @@ Module.register("MMM-Chart",{
 		
 		// Graph 1 colors.      R    G    B   Weight
 		graph1GridColor: "rgba(255, 255, 255, 0.1)",
-		graph1TickColor: "rgba(80,80, 200, 0.8)",
+		graph1TickColor: "rgba(120, 120, 255, 0.8)",
 		graph1LineColor: "rgba(80, 80, 255, 1)",
 		graph1FillColor: "rgba(80, 80, 255, 0.4)",
-		graph1Fill: true,
+		graph1Fill: false,
 
 		// Graph 2 colors.      R    G    B   Weight
 		graph2GridColor: "rgba(255, 255, 255, 0.1)",
 		graph2TickColor: "rgba(80, 200, 80, 0.6)",
 		graph2LineColor: "rgba(80, 200, 80, 1)",
 		graph2FillColor: "rgba(80, 200, 80, 0.4)",
-		graph2Fill: true,
+		graph2Fill: false,
 
 		// Tooltips enebeld/disabeld. 
 		tooltipEnabeld: true,
@@ -113,18 +109,19 @@ Module.register("MMM-Chart",{
 		
 		// Setup the data variable.
 		this.chartData.datasets[0] = { data:[] };
-		//this.chartData.datasets[1] = { data:[] };
+		this.chartData.datasets[1] = { data:[] };
 	},
 	
 	getData: function (url) {
-		Log.info('ID' + this.identifier);
+		//Log.info('ID = ' + this.identifier);
 		this.sendSocketNotification('GET_GRAPH_DATA', url);
 	},
 
 	socketNotificationReceived: function(notification, payload) {
+		//Log.info('Recived ID = ' + id);
 		if (notification === "GRAPH_DATA_RESULT") {
 
-    /******************* One graph working *********************/
+    /*************** Two Graphs working ******************/
 
 			// Parsing the JSON data to an array.
 			payload = JSON.parse(payload);
@@ -133,68 +130,24 @@ Module.register("MMM-Chart",{
 
 			// Reset the data chart
 			this.chartData.datasets[0].data = [];
+			this.chartData.datasets[1].data = [];
 			
 			// Counting trough the data.
 			for (var i = 0, toI = payload.length; i < toI; i++) {
+
 				// Setting up the "labels".
 				this.chartData.labels.push(payload[i][0]);
+
 				// Setting up the graphdata.
 				this.chartData.datasets[0].data.push(payload[i][1]);
+				this.chartData.datasets[1].data.push(payload[i][2]);
 			}
 			// Update the graph.
 			this.updateChartData();
 			//this.updateDom(self.config.fadeSpeed);
 		}
-	},///*
-    /***************** Two graphs NOT working *******************/
-	/*
-			// Parsing the JSON data to an array.
-			payload = JSON.parse(payload);
-			// Show first datastream.
-			Log.info('JSON parsed payload S20: ' + payload.s20);
-			// Show second datastream.
-//			Log.info('JSON parsed payload S21: ' + payload.s21);
-
-			// Tried to see whats going on...
-//			Log.info('Value ' + JSON.stringify(payload.s21));
-			
-			// How can it be 10?!
-//			le = payload.s21.length;
-//			Log.info('Length: ' + le);
-
-			// Reset the data chart for first graph.
-			this.chartData.datasets[0].data = [];
-			// Reset the data chart for second graph.
-			//this.chartData.datasets[1].data = [];
-
-			// Reset the labels for both graphs.
-			//this.chartData.labels = [];
-
-			// Counting trough the first grapgh data.
-			for (var i = 0, toI = payload.s20.length; i < toI; i++) {
-				// Trying to understand whats going on in first graph...
-				Log.info(i + ' Data 20 = ' + payload.s20[i]);
-				// Trying to understand whats going on in second graph...
-//				Log.info(i + ' Data 21 = ' + payload.s21[i]);
-
-				// Adding data labels (using first graphs labels) to  both graphs.
-				this.chartData.labels.push(payload.s20[i][0]);
-
-				// Adding data labels to second graph (not really used).
-//				this.chartData.labels.push(payload.s21[i]);
-
-				// Adding data to fisrt graph.
-				this.chartData.datasets[0].data.push(payload.s20[i][1]);
-
-				// Adding data to second graph.
-//				this.chartData.datasets[1].data.push(payload.s21[i]);
-
-			}
-			// Update the graph.
-			this.updateChartData();
-			//this.updateDom(self.config.fadeSpeed);
-		}
-	},//*/
+	},
+    /*****************************************************/
 	
 	scheduleUpdate: function(delay) {
 		var nextLoad = this.config.updateInterval;
@@ -210,15 +163,9 @@ Module.register("MMM-Chart",{
 	
 	updateChartData: function() {
 		if(this.myChart !== undefined) {
-			Log.info('Labels: ' + this.chartData.labels);
 			this.myChart.data.labels = this.chartData.labels;
-
-			////Log.info('Datasets Length: ' + this.myChart.data.datasets.length);
-
 			for(var i = 0; i < this.myChart.data.datasets.length && i < this.chartData.datasets.length; i++) {
-				////Log.info('Data ' + i + ': ' + this.chartData.datasets[i].data);
 				this.myChart.data.datasets[i].data = this.chartData.datasets[i].data;
-
 			}
 			this.myChart.update();
 		}
@@ -276,10 +223,10 @@ Module.register("MMM-Chart",{
 						},
 						label: function(ti, data) {
 							if (ti.datasetIndex == 0) {
-								return data.datasets[ti.datasetIndex].data[ti.index];// + "C";
+								return data.datasets[ti.datasetIndex].data[ti.index];
 
 							} else if(ti.datasetIndex == 1) {
-								return data.datasets[ti.datasetIndex].data[ti.index];// + "%";
+								return data.datasets[ti.datasetIndex].data[ti.index];
 
 							} else {
 								return data.datasets[ti.datasetIndex].data[ti.index].toString();
@@ -290,8 +237,8 @@ Module.register("MMM-Chart",{
 				elements: {
 					point: {
 						radius: 0,
-						hitRadius: 10,
-						hoverRadius: 10,
+						hitRadius: 3,
+						hoverRadius: 3,
 					},
 					line: {
 						tension: this.config.lineTension,
@@ -323,7 +270,7 @@ Module.register("MMM-Chart",{
 						ticks: {
 							fontColor: this.config.graph1TickColor,
 							callback: function(val) {
-								return val;// + " C";
+								return val;
 							}
 						}
 					},
@@ -341,7 +288,7 @@ Module.register("MMM-Chart",{
 						ticks: {
 							fontColor: this.config.graph2TickColor,
 							callback: function(val) {
-								return val;// + "%";
+								return val;
 							}
 						}
 					}
