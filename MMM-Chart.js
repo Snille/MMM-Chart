@@ -18,7 +18,9 @@ Module.register("MMM-Chart",{
 		updateInterval: 60000,
 		// Animation speed.
 		fadeSpeed: 1000,
-
+		graphWidth: 300,
+		graphHeight: 200,
+	
 		// URL to graph data.
 //		url: "http://10.0.0.20/housedata/index1.php?id=20&max=5&sort=desc",
 //		url: "http://10.0.0.20/housedata/index1.php?id=3&max=144&sort=desc",
@@ -38,7 +40,8 @@ Module.register("MMM-Chart",{
 
 		// Time format of the unit above.
 		// Checkout: http://momentjs.com/docs/#/displaying/format/
-		timeFormatLabels: "HH:mm",
+		//timeFormatLabels: "HH:mm",
+		timeFormatLabels: "YYYY-MM-DD",
 
 		// Left side vertical label.
 		showLeftScaleLabel: false,
@@ -103,52 +106,56 @@ Module.register("MMM-Chart",{
 		this.scheduleUpdate();
 		this.dataid = 0;
 		this.chartData = {labels: [], datasets: [] }
-
+		this.config.identifier = this.identifier;
+		
 		// Triggers the get data.
-		this.getData(this.config.url);
+		this.getData(this.config);
 		
 		// Setup the data variable.
 		this.chartData.datasets[0] = { data:[] };
 		this.chartData.datasets[1] = { data:[] };
 	},
 	
-	getData: function (url) {
-		//Log.info('ID = ' + this.identifier);
-		this.sendSocketNotification('GET_GRAPH_DATA', url);
+	// Request the graph data.
+	getData: function (data) {
+		this.sendSocketNotification('GET_GRAPH_DATA', data);
 	},
 
+	// Getting the grapg data (from all graph modules).
 	socketNotificationReceived: function(notification, payload) {
-		//Log.info('Recived ID = ' + id);
 		if (notification === "GRAPH_DATA_RESULT") {
 
-    /*************** Two Graphs working ******************/
+			// Checks if the data is to this instans of the graph module.
+			if (this.identifier === payload.identifier) {
 
-			// Parsing the JSON data to an array.
-			payload = JSON.parse(payload);
-			// Show it.
-			////Log.info('JSON parsed payload: ' + payload);
+				// Show it all!
+				////Log.info('JSON parsed payload: ' + payload);
+	
+				// Parsing the JSON data to an array.
+				payload = JSON.parse(payload.body);
 
-			// Reset the data chart
-			this.chartData.datasets[0].data = [];
-			this.chartData.datasets[1].data = [];
-			
-			// Counting trough the data.
-			for (var i = 0, toI = payload.length; i < toI; i++) {
-
-				// Setting up the "labels".
-				this.chartData.labels.push(payload[i][0]);
-
-				// Setting up the graphdata.
-				this.chartData.datasets[0].data.push(payload[i][1]);
-				this.chartData.datasets[1].data.push(payload[i][2]);
+				// Reset both data gprah lines.
+				this.chartData.datasets[0].data = [];
+				this.chartData.datasets[1].data = [];
+				
+				// Counting trough the new graph data.
+				for (var i = 0, toI = payload.length; i < toI; i++) {
+	
+					// Setting up the graph "labels".
+					this.chartData.labels.push(payload[i][0]);
+	
+					// Setting up the graphs data.
+					this.chartData.datasets[0].data.push(payload[i][1]);
+					this.chartData.datasets[1].data.push(payload[i][2]);
+				}
+				// Update the graphs.
+				this.updateChartData();
+				//this.updateDom(self.config.fadeSpeed);
 			}
-			// Update the graph.
-			this.updateChartData();
-			//this.updateDom(self.config.fadeSpeed);
 		}
 	},
-    /*****************************************************/
 	
+	// Updating routine.
 	scheduleUpdate: function(delay) {
 		var nextLoad = this.config.updateInterval;
 		if (typeof delay !== "undefined" && delay >= 0) {
@@ -161,6 +168,7 @@ Module.register("MMM-Chart",{
 		}, nextLoad);
 	},
 	
+	// Parsing the data and preparing for the graph chart.
 	updateChartData: function() {
 		if(this.myChart !== undefined) {
 			this.myChart.data.labels = this.chartData.labels;
@@ -175,6 +183,10 @@ Module.register("MMM-Chart",{
 	getDom: function() {
 		var wrapper = document.createElement("div");
 		this.ctx = document.createElement("canvas");
+//		this.ctx.canvas.width = this.config.graphWidth;
+//		this.ctx.canvas.height = this.config.graphHeight;
+//		this.canvas.width = 300;
+//		this.canvas.height = 200;
 		wrapper.appendChild(this.ctx);
 
 		this.myChart = new Chart(this.ctx, {
@@ -250,7 +262,8 @@ Module.register("MMM-Chart",{
 						time: {
 							unit: this.config.timeUnit,
 							displayFormats: {
-								hour: this.config.timeFormatLabels,
+								//hour: this.config.timeFormatLabels,
+								day: this.config.timeFormatLabels,
 							},
 						},
 						gridLines: {

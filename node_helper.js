@@ -5,12 +5,13 @@ module.exports = NodeHelper.create ({
 	start: function () {
 		console.log('MMM-Chart helper started...');
 	},
-	getData: function (url) {
+	getData: function (data) {
 		var self = this;
-		request({ url: url, method: 'GET' }, function (error, response, body) {
+		request({ url: data.url, method: 'GET' }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				//console.log('Data: ' + body);
-				self.sendSocketNotification('GRAPH_DATA_RESULT', body);
+				//console.log(JSON.stringify(data));
+				data.body = body;
+				self.sendSocketNotification('GRAPH_DATA_RESULT', data);
 			}
       });
 	},
@@ -18,7 +19,6 @@ module.exports = NodeHelper.create ({
 	//Subclass socketNotificationReceived received.
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === 'GET_GRAPH_DATA') {
-			//console.log('Id: ' + this.id);
 			this.getData(payload);
 		}
 	}

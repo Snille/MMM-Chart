@@ -9,3 +9,8 @@
 .high {
   color: green;
 }
+
+.canvas {
+  width: 300px;
+  height: 150px;
+}
