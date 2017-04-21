@@ -11,14 +11,14 @@ module.exports = NodeHelper.create({
       request({ url: url, method: 'GET' }, function (error, response, body) {
           if (!error && response.statusCode == 200) {
 			//console.log('Data: ' + body);
-            self.sendSocketNotification('DATA_RESULT', body);
+            self.sendSocketNotification('GRAPH_DATA_RESULT', body);
           }
       });
   },
 
   //Subclass socketNotificationReceived received.
   socketNotificationReceived: function(notification, payload) {
-    if (notification === 'GET_DATA') {
+    if (notification === 'GET_GRAPH_DATA') {
       this.getData(payload);
     }
   }

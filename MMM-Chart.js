@@ -20,8 +20,8 @@ Module.register("MMM-Chart",{
 		fadeSpeed: 1000,
 		// URL to fetch data from.
 //		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc",
-		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc",
-//		url: "http://10.0.0.20/housedata/index.php?id=20&max=5&sort=desc",
+//		url: "http://10.0.0.20/housedata/multiindex.php?id=20,21&max=5&sort=desc",
+		url: "http://10.0.0.20/housedata/index.php?id=20&max=144&sort=desc",
 		//unit: "day",
 		unit: "hour",
 		//unit: "month",
@@ -52,37 +52,39 @@ Module.register("MMM-Chart",{
 		
 		// Setup the data variable.
 		this.chartData.datasets[0] = { data:[] };
-		this.chartData.datasets[1] = { data:[] };
+		//this.chartData.datasets[1] = { data:[] };
 	},
 	
 	getData: function (url) {
-		this.sendSocketNotification('GET_DATA', url);
+		this.sendSocketNotification('GET_GRAPH_DATA', url);
 	},
 
 	socketNotificationReceived: function(notification, payload) {
-		if (notification === "DATA_RESULT") {
+		if (notification === "GRAPH_DATA_RESULT") {
 			//Log.info('payload: ' + payload);
 
 			payload = JSON.parse(payload);
 			Log.info('JSON parsed payload: ' + payload);
-			Log.info('JSON parsed payload S20: ' + payload.s20);
-			Log.info('JSON parsed payload S21: ' + payload.s21);
+//			Log.info('JSON parsed payload S20: ' + payload.s20);
+//			Log.info('JSON parsed payload S21: ' + payload.s21);
 
-			Log.info('Value ' + JSON.stringify(payload.s21));
+//			Log.info('Value ' + JSON.stringify(payload.s21));
 			
 			// How can it be 10?!
-			le = payload.s21.length;
-			Log.info('Length: ' + le);
+//			le = payload.s21.length;
+//			Log.info('Length: ' + le);
 
 
 			this.chartData.datasets[0].data = [];
-			this.chartData.datasets[1].data = [];
+			//this.chartData.datasets[1].data = [];
 			//this.chartData.labels = [];
 
-			
-			for (var i = 0, toI = payload.s20.length; i < toI; i++) {
-				Log.info(i + ' Data 20 = ' + payload.s20[i]);
-				Log.info(i + ' Data 21 = ' + payload.s21[i]);
+			for (var i = 0, toI = payload.length; i < toI; i++) {
+//			for (var i = 0, toI = payload.s20.length; i < toI; i++) {
+//				Log.info(i + ' Data 20 = ' + payload.s20[i]);
+//				Log.info(i + ' Data 21 = ' + payload.s21[i]);
+				this.chartData.labels.push(payload[i][0]);
+				this.chartData.datasets[0].data.push(payload[i][1]);
 /*
 				this.chartData.labels.push(payload.s20[i]);
 //				this.chartData.labels.push(payload.s21[i]);
@@ -110,6 +112,9 @@ Module.register("MMM-Chart",{
 	updateChartData: function() {
 		if(this.myChart !== undefined) {
 			this.myChart.data.labels = this.chartData.labels;
+
+			Log.info('Data Length: ' + this.myChart.data.datasets.length);
+
 			for(var i = 0; i < this.myChart.data.datasets.length && i < this.chartData.datasets.length; i++) {
 				this.myChart.data.datasets[i].data = this.chartData.datasets[i].data;
 
