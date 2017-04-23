@@ -71,10 +71,11 @@ Module.register("MMM-Chart",{
 		// Position of the horizontal scale labels (top, left, bottom and right).
 		xaxisLabelsPosition: "bottom",
 		
+		
+		// Show information lables.
+		showGraphLabels: true,
 		// Position of information lables (top, left, bottom and right).
 		showGraphLabelsPosition: "top",
-		
-		showGraphLabels: true,
 		// Box before text.  R    G    B   Weight
 		boxFontColor: "rgba(153, 153, 153, 0.6)",
 		boxWidth: 2,
@@ -83,7 +84,7 @@ Module.register("MMM-Chart",{
 		xaxisColor: "rgba(255, 255, 255, 0.1)",
 
 		// Default line bezier curve tension (recommended 0 - 0.4). Set to 0 for no bezier curves.
-		lineTension: 0.4,
+		lineTension: 0.2,
 		
 		// Tooltips enebeld/disabeld (displays if hoovering over tha graph points). 
 		tooltipEnabeld: true,
@@ -94,7 +95,7 @@ Module.register("MMM-Chart",{
 		tooltipTitleFontColor: "rgba(255, 255, 255, 1)",
 		tooltipDisplayColorsBoxes: true,
 
-		// Graph 0 information:
+		// Graph 1 information:
 		// Colors.              R    G    B   Weight
 		graph0GridColor: "rgba(255, 255, 255, 0.1)",
 		graph0TickColor: "rgba(120, 120, 255, 0.8)",
@@ -115,7 +116,7 @@ Module.register("MMM-Chart",{
 		// The text on the vertical label.
 		graph0TextScaleLabel: "Temprature C",
 
-		// Graph 1 information:
+		// Graph 2 information:
 		// Colors.              R    G    B   Weight
 		graph1GridColor: "rgba(255, 255, 255, 0.1)",
 		graph1TickColor: "rgba(80, 200, 80, 0.6)",
@@ -136,7 +137,7 @@ Module.register("MMM-Chart",{
 		// The text on the vertical label.
 		graph1TextScaleLabel: "Humidity %",
 
-		// Graph 2 information:
+		// Graph 3 information:
 		// Colors.              R    G    B   Weight
 		graph2GridColor: "rgba(255, 255, 255, 0.1)",
 		graph2TickColor: "rgba(200, 80, 80, 0.6)",
@@ -296,7 +297,105 @@ Module.register("MMM-Chart",{
 						}
 					}
 				}
+			}
+			
+		};
+		
+		// Start of the Scales.
+		var optionScales = {
+			scales: {
+				xAxes: [],
+				yAxes: []
+			}
+		};
+
+		// X Axis Scale.
+		var xAxis0 = {
+			type: this.config.xaxisType,
+			position: this.config.xaxisLabelsPosition,
+			time: {
+				displayFormats: {},
+				unit: this.config.xaxisTimeUnit,
 			},
+			gridLines: {
+				color: this.config.xaxisColor
+			}
+		};
+
+		// Graph 1.
+		var yAxis0 = {
+			position: this.config.graph0ScalePos,//"left",
+			id: "y-axis-0",
+			scaleLabel: {
+				display: this.config.graph0ShowScaleLabel,
+				labelString: this.config.graph0TextScaleLabel
+			},
+			gridLines: {
+				color: this.config.graph0GridColor
+			},
+			ticks: {
+				stepSize: this.config.graph0ScaleStepSize,
+				//minStepSize: 0.2,	
+				fontColor: this.config.graph0TickColor,
+				callback: function(val) {
+					if (!isNaN(val)) {
+						val = Math.round(val * 100) / 100
+					}
+					return val;
+				}
+			}
+		};
+
+		// Graph 2.
+		var yAxis1 = {
+			position: this.config.graph1ScalePos,//"right",
+			id: "y-axis-1",
+			scaleLabel: {
+				display: this.config.graph1ShowScaleLabel,
+				labelString: this.config.graph1TextScaleLabel
+			},
+			gridLines: {
+				color: this.config.graph1GridColor
+			},
+			ticks: {
+				stepSize: this.config.graph1ScaleStepSize,
+				//minStepSize: 0.2,
+				fontColor: this.config.graph1TickColor,
+				callback: function(val) {
+					if (!isNaN(val)) {
+						val = Math.round(val * 100) / 100
+					}
+					return val;
+				}
+			}
+		};
+
+		// Graph 3.
+		var yAxis2 = {
+			position: this.config.graph2ScalePos,//"left",
+			id: "y-axis-2",
+			scaleLabel: {
+				display: this.config.graph2ShowScaleLabel,
+				labelString: this.config.graph2TextScaleLabel
+			},
+			gridLines: {
+				color: this.config.graph2GridColor
+			},
+			ticks: {
+				stepSize: this.config.graph2ScaleStepSize,
+				//minStepSize: 0.2,
+				fontColor: this.config.graph2TickColor,
+				callback: function(val) {
+					if (!isNaN(val)) {
+						val = Math.round(val * 100) / 100
+					}
+					return val;
+				}
+			}
+		};
+
+		// Scale option elements.
+		var optionelements = {
 			elements: {
 				point: {
 					radius: 0,
@@ -306,127 +405,64 @@ Module.register("MMM-Chart",{
 				line: {
 					tension: this.config.lineTension,
 				}
-			},
-			scales: {
-				xAxes: [{
-					type: this.config.xaxisType,
-					position: this.config.xaxisLabelsPosition,
-					time: {
-						displayFormats: {},
-						unit: this.config.xaxisTimeUnit,
-					},
-					gridLines: {
-						color: this.config.xaxisColor
-					}
-				}],
-				yAxes: [
-				// Graph 1
-					{
-						position: this.config.graph0ScalePos,//"left",
-						id: "y-axis-0",
-						scaleLabel: {
-							display: this.config.graph0ShowScaleLabel,
-							labelString: this.config.graph0TextScaleLabel
-						},
-						gridLines: {
-							color: this.config.graph0GridColor
-						},
-						ticks: {
-							stepSize: this.config.graph0ScaleStepSize,
-							//minStepSize: 0.2,	
-							fontColor: this.config.graph0TickColor,
-							callback: function(val) {
-								if (!isNaN(val)) {
-									val = Math.round(val * 100) / 100
-								}
-								return val;
-							}
-						}
-					},
-				// Graph 2
-					{
-						position: this.config.graph1ScalePos,//"right",
-						id: "y-axis-1",
-						scaleLabel: {
-							display: this.config.graph1ShowScaleLabel,
-							labelString: this.config.graph1TextScaleLabel
-						},
-						gridLines: {
-							color: this.config.graph1GridColor
-						},
-						ticks: {
-							stepSize: this.config.graph1ScaleStepSize,
-							//minStepSize: 0.2,
-							fontColor: this.config.graph1TickColor,
-							callback: function(val) {
-								if (!isNaN(val)) {
-									val = Math.round(val * 100) / 100
-								}
-								return val;
-							}
-						}
-					},
-				// Graph 3
-					{
-						position: this.config.graph2ScalePos,//"left",
-						id: "y-axis-2",
-						scaleLabel: {
-							display: this.config.graph2ShowScaleLabel,
-							labelString: this.config.graph2TextScaleLabel
-						},
-						gridLines: {
-							color: this.config.graph2GridColor
-						},
-						ticks: {
-							stepSize: this.config.graph2ScaleStepSize,
-							//minStepSize: 0.2,
-							fontColor: this.config.graph2TickColor,
-							callback: function(val) {
-								if (!isNaN(val)) {
-									val = Math.round(val * 100) / 100
-								}
-								return val;
-							}
-						}
-					}
-				]
 			}
 		};
 
-		// Ghraph datasets
-		var graphdatasets = [
-		// Graph 1
-			{
-				label: this.config.graph0Label,
-				yAxisID: "y-axis-0",
-				borderColor: this.config.graph0LineColor,
-				backgroundColor: this.config.graph0FillColor,
-				fill: this.config.graph0Fill,
-				borderWidth: this.config.graph0BorderWidth,
-				data: [],
-			},
-		// Graph 2
-			{
-				label: this.config.graph1Label,
-				yAxisID: "y-axis-1",
-				borderColor: this.config.graph1LineColor,
-				backgroundColor: this.config.graph1FillColor,
-				fill: this.config.graph1Fill,
-				borderWidth: this.config.graph1BorderWidth,
-				data: [],
-			},
-		// Graph 3
-			{
-				label: this.config.graph2Label,
-				yAxisID: "y-axis-2",
-				borderColor: this.config.graph2LineColor,
-				backgroundColor: this.config.graph2FillColor,
-				fill: this.config.graph2Fill,
-				borderWidth: this.config.graph2BorderWidth,
-				data: []
-			}
-		];
+		// Start graph datasets.
+		var graphdatasets = [];
 
+		// Graph 1
+		var graph0 = {
+			label: this.config.graph0Label,
+			yAxisID: "y-axis-0",
+			borderColor: this.config.graph0LineColor,
+			backgroundColor: this.config.graph0FillColor,
+			fill: this.config.graph0Fill,
+			borderWidth: this.config.graph0BorderWidth,
+			data: [],
+		};
+
+		// Graph 2
+		var graph1 = {
+			label: this.config.graph1Label,
+			yAxisID: "y-axis-1",
+			borderColor: this.config.graph1LineColor,
+			backgroundColor: this.config.graph1FillColor,
+			fill: this.config.graph1Fill,
+			borderWidth: this.config.graph1BorderWidth,
+			data: [],
+		};
+		
+		// Graph 3
+		var graph2 = {
+			label: this.config.graph2Label,
+			yAxisID: "y-axis-2",
+			borderColor: this.config.graph2LineColor,
+			backgroundColor: this.config.graph2FillColor,
+			fill: this.config.graph2Fill,
+			borderWidth: this.config.graph2BorderWidth,
+			data: []
+		};
+
+		// Adding the XAxis 0.
+		optionScales.scales.xAxes.push(xAxis0);
+
+		// Adding the Y Axis 0-2 options.
+		optionScales.scales.yAxes.push(yAxis0);
+		optionScales.scales.yAxes.push(yAxis1);
+		optionScales.scales.yAxes.push(yAxis2);
+
+		// Adding the Y Axis 0-2 graphs.
+		graphdatasets.push(graph0);
+		graphdatasets.push(graph1);
+		graphdatasets.push(graph2);
+
+		// Merging it all.
+		Object.assign(options, optionelements, optionScales);
+
+		// Show it all...
+		////Log.info(JSON.stringify(options));
+		
 		// Setting the time scale.
 		if (this.config.xaxisTimeUnit == "millisecond") {
 			options.scales.xAxes[0].time.displayFormats.millisecond = this.config.xaxisTimeFormatLabels
@@ -447,6 +483,9 @@ Module.register("MMM-Chart",{
 		} else if (this.config.xaxisTimeUnit == "year") {
 			options.scales.xAxes[0].time.displayFormats.year = this.config.xaxisTimeFormatLabels
 		}
+
+		// Show it all again...
+		//Log.info(JSON.stringify(options));
 		
 		// Creating the actual graph.
 		this.myChart = new Chart(this.ctx, {
