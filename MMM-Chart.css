@@ -1,12 +1,4 @@
-.chart {
-  color: white;
-  
-}
-
-.low {
-  color: red;
-}
-
-.high {
-  color: green;
+.MMM-Chart {
+	width: 355px;
+	background-color: #000000;
 }

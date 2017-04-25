@@ -14,9 +14,9 @@ Module.register("MMM-Chart",{
 	//var graph = [],
 	// Default module config.
 	defaults: {
-		// How many graphlines do you want?
+		// Number ofdata graphlines that you have in your JSON.
 		// All data has to have the same xaxis (horizontal axis).
-		numberOfGraphs: 10,
+		numberOfGraphs: 1,
 
 		// How long between updates. 
 		updateInterval: 60000,
@@ -38,7 +38,7 @@ Module.register("MMM-Chart",{
 //		url: "http://10.0.0.20/housedata/index1.php?id=20&max=5&sort=desc",
 //		url: "http://10.0.0.20/housedata/index1.php?id=3&max=144&sort=desc",
 //		url: "http://10.0.0.20/housedata/index2.php?id=9,10&max=5&sort=desc",
-		url: "http://10.0.0.20/housedata/index2.php?id=13,14,20&max=44&sort=desc",
+//		url: "http://10.0.0.20/housedata/index2.php?id=13,14,20&max=44&sort=desc",
 
 		// X Axis time unit the graphs should be ploted in.
 		//xaxisTimeUnit: "millisecond",
@@ -56,7 +56,7 @@ Module.register("MMM-Chart",{
 		// Example for minute above.
 		//xaxisTimeFormatLabels: "mm",
 		// Example for hour above.
-		xaxisTimeFormatLabels: "HH:mm",
+		xaxisTimeFormatLabels: "H",
 		// Example for day above.
 		//xaxisTimeFormatLabels: "YYYY-MM-DD",
 		// Example for week above.
@@ -68,9 +68,11 @@ Module.register("MMM-Chart",{
 		// For more options checkout: http://www.chartjs.org/docs/#scales
 		xaxisType: "time",
 
+		// Display X-Axis ticks.
+		xaxisLabelTicks: true,
+
 		// Position of the horizontal scale labels (top, left, bottom and right).
 		xaxisLabelsPosition: "bottom",
-		
 		
 		// Show information lables.
 		showGraphLabels: true,
@@ -94,69 +96,107 @@ Module.register("MMM-Chart",{
 		tooltipBodyFontColor: "rgba(255, 255, 255, 1)",
 		tooltipTitleFontColor: "rgba(255, 255, 255, 1)",
 		tooltipDisplayColorsBoxes: true,
-
+		
 		// Graph 1 information:
 		// Colors.              R    G    B   Weight
-		graph0GridColor: "rgba(255, 255, 255, 0.1)",
-		graph0TickColor: "rgba(120, 120, 255, 0.8)",
-		graph0LineColor: "rgba(80, 80, 255, 1)",
-		graph0FillColor: "rgba(80, 80, 255, 0.4)",
+		graphGridColor0: "rgba(255, 255, 255, 0.1)",
+		graphTickColor0: "rgba(120, 120, 255, 0.8)",
+		graphLineColor0: "rgba(80, 80, 255, 1)",
+		graphFillColor0: "rgba(80, 80, 255, 0.4)",
 		// Fill or not.
-		graph0Fill: false,
+		graphFill0: false,
 		// Line width.
-		graph0BorderWidth: 2,
+		graphBorderWidth0: 2,
 		// Scale position. 
-		graph0ScalePos: "left",
+		graphScalePos0: "left",
+		// Display Y-Axis ticks.
+		graphLabelTicks0: true,
 		// Size of the value steps on the scale (0 = Auto).
-		graph0ScaleStepSize: 0,
+		graphScaleStepSize0: 0,
 		// Text after the graph example box.
-		graph0Label: "Temprature C",
+		graphLabel0: "Dummy A",
 		// Show vertical side label.
-		graph0ShowScaleLabel: false,
+		graphShowScaleLabel0: false,
 		// The text on the vertical label.
-		graph0TextScaleLabel: "Temprature C",
+		graphTextScaleLabel0: "Dummy A",
+		// Stack the graph.
+		graphstacked0: false,
 
 		// Graph 2 information:
 		// Colors.              R    G    B   Weight
-		graph1GridColor: "rgba(255, 255, 255, 0.1)",
-		graph1TickColor: "rgba(80, 200, 80, 0.6)",
-		graph1LineColor: "rgba(80, 200, 80, 1)",
-		graph1FillColor: "rgba(80, 200, 80, 0.4)",
+		graphGridColor1: "rgba(255, 255, 255, 0.1)",
+		graphTickColor1: "rgba(80, 200, 80, 0.6)",
+		graphLineColor1: "rgba(80, 200, 80, 1)",
+		graphFillColor1: "rgba(80, 200, 80, 0.4)",
 		// Fill or not.
-		graph1Fill: false,
+		graphFill1: false,
 		// Line width.
-		graph1BorderWidth: 2,
+		graphBorderWidth1: 2,
 		// Scale position (left or right). 
-		graph1ScalePos: "right",
+		graphScalePos1: "right",
+		// Display Y-Axis ticks.
+		graphLabelTicks1: true,
 		// Size of the value steps on the right side (0 = Auto).
-		graph1ScaleStepSize: 0,
+		graphScaleStepSize1: 0,
 		// Text after the graph example box.
-		graph1Label: "Humidity %",
+		graphLabel1: "Dummy B",
 		// Show vertical side label.
-		graph1ShowScaleLabel: false,
+		graphShowScaleLabel1: false,
 		// The text on the vertical label.
-		graph1TextScaleLabel: "Humidity %",
+		graphTextScaleLabel1: "Dummy B",
+		// Stack the graph.
+		graphstacked1: false,
 
 		// Graph 3 information:
 		// Colors.              R    G    B   Weight
-		graph2GridColor: "rgba(255, 255, 255, 0.1)",
-		graph2TickColor: "rgba(200, 80, 80, 0.6)",
-		graph2LineColor: "rgba(200, 80, 80, 1)",
-		graph2FillColor: "rgba(200, 80, 80, 0.4)",
+		graphGridColor2: "rgba(255, 255, 255, 0.1)",
+		graphTickColor2: "rgba(200, 80, 80, 0.6)",
+		graphLineColor2: "rgba(200, 80, 80, 1)",
+		graphFillColor2: "rgba(200, 80, 80, 0.4)",
 		// Fill or not.
-		graph2Fill: false,
+		graphFill2: false,
 		// Line width.
-		graph2BorderWidth: 2,
+		graphBorderWidth2: 2,
 		// Scale position (left or right). 
-		graph2ScalePos: "right",
+		graphScalePos2: "left",
+		// Display Y-Axis ticks.
+		graphLabelTicks2: true,
 		// Size of the value steps on the right side (0 = Auto).
-		graph2ScaleStepSize: 0,
+		graphScaleStepSize2: 0,
 		// Text after the graph example box.
-		graph2Label: "Dummy D",
+		graphLabel2: "Dummy C",
 		// Show vertical side label.
-		graph2ShowScaleLabel: false,
+		graphShowScaleLabel2: false,
 		// The text on the vertical label.
-		graph2TextScaleLabel: "Dummy D",
+		graphTextScaleLabel2: "Dummy C",
+		// Stack the graph.
+		graphstacked2: false,
+
+		// Graph 4 information:
+		// Colors.              R    G    B   Weight
+		graphGridColor3: "rgba(255, 255, 255, 0.1)",
+		graphTickColor3: "rgba(200, 200, 80, 0.6)",
+		graphLineColor3: "rgba(200, 200, 80, 1)",
+		graphFillColor3: "rgba(200, 200, 80, 0.4)",
+		// Fill or not.
+		graphFill3: false,
+		// Line width.
+		graphBorderWidth3: 2,
+		// Scale position (left or right). 
+		graphScalePos3: "right",
+		// Display Y-Axis ticks.
+		graphLabelTicks3: true,
+		// Size of the value steps on the right side (0 = Auto).
+		graphScaleStepSize3: 0,
+		// Text after the graph example box.
+		graphLabel3: "Dummy D",
+		// Show vertical side label.
+		graphShowScaleLabel3: false,
+		// The text on the vertical label.
+		graphTextScaleLabel3: "Dummy D",
+		// Stack the graph.
+		graphstacked3: false,
+
 	},
 
 	// Get the Module CSS.
@@ -201,10 +241,11 @@ Module.register("MMM-Chart",{
 			if (this.identifier === payload.identifier) {
 
 				// Show it all!
-				////Log.info('JSON parsed payload: ' + payload);
+				//Log.info('Parsed payload: ' + JSON.stringify(payload));
 	
 				// Parsing the JSON data to an array.
 				payload = JSON.parse(payload.body);
+				//Log.info('Parsed payload body: ' + JSON.stringify(payload));
 
 				// Reset all data gprah lines.
 				for (var q = 0; q < this.config.numberOfGraphs; q++) {
@@ -215,15 +256,18 @@ Module.register("MMM-Chart",{
 				for (var i = 0, toI = payload.length; i < toI; i++) {
 					// Setting up the graph "labels".
 					this.chartData.labels.push(payload[i][0]);
+					
 					// Setting up the graphs data.
 					for (var j = 1, toJ = payload[i].length; j < toJ; j++) {
-						this.chartData.datasets[j-1].data.push(payload[i][j]);
+						if (typeof this.chartData.datasets[j-1] != 'undefined' || this.chartData.datasets[j-1] != null) {
+							this.chartData.datasets[j-1].data.push(payload[i][j]);
+						}
 					}
 				}
 				//Log.info('Length = ' + this.chartData.datasets.length);
 				// Update the graphs.
 				this.updateChartData();
-				//this.updateDom(self.config.fadeSpeed);
+				this.updateDom(self.config.fadeSpeed);
 			}
 		}
 	},
@@ -257,10 +301,6 @@ Module.register("MMM-Chart",{
 	getDom: function() {
 		var wrapper = document.createElement("div");
 		this.ctx = document.createElement("canvas");
-//		this.ctx.canvas.width = this.config.graphWidth;
-//		this.ctx.canvas.height = this.config.graphHeight;
-//		this.canvas.width = 300;
-//		this.canvas.height = 200;
 		wrapper.appendChild(this.ctx);
 
 		// Graph options.
@@ -272,6 +312,8 @@ Module.register("MMM-Chart",{
 				position: this.config.showGraphLabelsPosition,
 				labels: {
 					boxWidth: this.config.boxWidth,
+					fontFamily: "Arial",
+					//fontFamily: "Roboto-Black",
 					fontColor: this.config.boxFontColor
 				}
 			},
@@ -284,7 +326,6 @@ Module.register("MMM-Chart",{
 				mode: "x",
 				callbacks: {
 					title: function(ti, data) {
-						// Need to be abel to change the format here!!
 						return moment(ti[0].xLabel).format("HH:mm:ss");
 					},
 					label: function(ti, data) {
@@ -311,6 +352,7 @@ Module.register("MMM-Chart",{
 
 		// X Axis Scale.
 		var xAxis0 = {
+			display: this.config.xaxisLabelTicks,
 			type: this.config.xaxisType,
 			position: this.config.xaxisLabelsPosition,
 			time: {
@@ -321,77 +363,38 @@ Module.register("MMM-Chart",{
 				color: this.config.xaxisColor
 			}
 		};
+		
+		// Adding Graph XAxis to chart.
+		optionScales.scales.xAxes.push(xAxis0);
 
-		// Graph 1.
-		var yAxis0 = {
-			position: this.config.graph0ScalePos,//"left",
-			id: "y-axis-0",
-			scaleLabel: {
-				display: this.config.graph0ShowScaleLabel,
-				labelString: this.config.graph0TextScaleLabel
-			},
-			gridLines: {
-				color: this.config.graph0GridColor
-			},
-			ticks: {
-				stepSize: this.config.graph0ScaleStepSize,
-				//minStepSize: 0.2,	
-				fontColor: this.config.graph0TickColor,
-				callback: function(val) {
-					if (!isNaN(val)) {
-						val = Math.round(val * 100) / 100
+		// Adding Graph label and color settings to chart.
+		for (var y = 0; y < this.chartData.datasets.length; y++) {		
+			// Graph 1.
+			yAxis0 = {
+				display: this.config['graphLabelTicks' + y],
+				stacked: this.config['graphstacked' + y],
+				position: this.config['graphScalePos' + y],
+				id: "y-axis-" + y,
+				scaleLabel: {
+					display: this.config['graphShowScaleLabel' + y],
+					labelString: this.config['graphTextScaleLabel' + y]
+				},
+				gridLines: {
+					color: this.config['graphGridColor' + y]
+				},
+				ticks: {
+					stepSize: this.config['graphScaleStepSize' + y],
+					//minStepSize: 0.2,	
+					fontColor: this.config['graphTickColor' + y],
+					callback: function(val) {
+						if (!isNaN(val)) {
+							val = Math.round(val * 100) / 100
+						}
+						return val;
 					}
-					return val;
 				}
-			}
-		};
-
-		// Graph 2.
-		var yAxis1 = {
-			position: this.config.graph1ScalePos,//"right",
-			id: "y-axis-1",
-			scaleLabel: {
-				display: this.config.graph1ShowScaleLabel,
-				labelString: this.config.graph1TextScaleLabel
-			},
-			gridLines: {
-				color: this.config.graph1GridColor
-			},
-			ticks: {
-				stepSize: this.config.graph1ScaleStepSize,
-				//minStepSize: 0.2,
-				fontColor: this.config.graph1TickColor,
-				callback: function(val) {
-					if (!isNaN(val)) {
-						val = Math.round(val * 100) / 100
-					}
-					return val;
-				}
-			}
-		};
-
-		// Graph 3.
-		var yAxis2 = {
-			position: this.config.graph2ScalePos,//"left",
-			id: "y-axis-2",
-			scaleLabel: {
-				display: this.config.graph2ShowScaleLabel,
-				labelString: this.config.graph2TextScaleLabel
-			},
-			gridLines: {
-				color: this.config.graph2GridColor
-			},
-			ticks: {
-				stepSize: this.config.graph2ScaleStepSize,
-				//minStepSize: 0.2,
-				fontColor: this.config.graph2TickColor,
-				callback: function(val) {
-					if (!isNaN(val)) {
-						val = Math.round(val * 100) / 100
-					}
-					return val;
-				}
-			}
+			};
+			optionScales.scales.yAxes.push(yAxis0);
 		};
 
 		// Scale option elements.
@@ -411,57 +414,26 @@ Module.register("MMM-Chart",{
 		// Start graph datasets.
 		var graphdatasets = [];
 
-		// Graph 1
-		var graph0 = {
-			label: this.config.graph0Label,
-			yAxisID: "y-axis-0",
-			borderColor: this.config.graph0LineColor,
-			backgroundColor: this.config.graph0FillColor,
-			fill: this.config.graph0Fill,
-			borderWidth: this.config.graph0BorderWidth,
-			data: [],
+		// Adding Graph line settings to chart.
+		for (var g = 0; g < this.chartData.datasets.length; g++) {
+			graph0 = {
+				label: this.config['graphLabel' + g],
+				yAxisID: "y-axis-" + g,
+				borderColor: this.config['graphLineColor' + g],
+				backgroundColor: this.config['graphFillColor' + g],
+				fill: this.config['graphFill' + g],
+				borderWidth: this.config['graphBorderWidth' + g],
+				data: [],
+			};
+			graphdatasets.push(graph0);
+			//Log.info(JSON.stringify(graph0));
 		};
-
-		// Graph 2
-		var graph1 = {
-			label: this.config.graph1Label,
-			yAxisID: "y-axis-1",
-			borderColor: this.config.graph1LineColor,
-			backgroundColor: this.config.graph1FillColor,
-			fill: this.config.graph1Fill,
-			borderWidth: this.config.graph1BorderWidth,
-			data: [],
-		};
-		
-		// Graph 3
-		var graph2 = {
-			label: this.config.graph2Label,
-			yAxisID: "y-axis-2",
-			borderColor: this.config.graph2LineColor,
-			backgroundColor: this.config.graph2FillColor,
-			fill: this.config.graph2Fill,
-			borderWidth: this.config.graph2BorderWidth,
-			data: []
-		};
-
-		// Adding the XAxis 0.
-		optionScales.scales.xAxes.push(xAxis0);
-
-		// Adding the Y Axis 0-2 options.
-		optionScales.scales.yAxes.push(yAxis0);
-		optionScales.scales.yAxes.push(yAxis1);
-		optionScales.scales.yAxes.push(yAxis2);
-
-		// Adding the Y Axis 0-2 graphs.
-		graphdatasets.push(graph0);
-		graphdatasets.push(graph1);
-		graphdatasets.push(graph2);
 
 		// Merging it all.
 		Object.assign(options, optionelements, optionScales);
 
 		// Show it all...
-		////Log.info(JSON.stringify(options));
+		//Log.info(JSON.stringify(options));
 		
 		// Setting the time scale.
 		if (this.config.xaxisTimeUnit == "millisecond") {
@@ -486,9 +458,14 @@ Module.register("MMM-Chart",{
 
 		// Show it all again...
 		//Log.info(JSON.stringify(options));
-		
+
 		// Creating the actual graph.
 		this.myChart = new Chart(this.ctx, {
+			defaults: {
+				global: {
+					fontSize: 80,
+				}
+			},
 			type: this.config.graphStyle,
 			data: {
 				labels: [],
