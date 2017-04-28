@@ -4,7 +4,7 @@
  * Module: MMM-Chart
  * 
  * Developed by Erik Pettersson
- * Based on dynchart module by Chris van Marle
+ * Partly based on dynchart module by Chris van Marle
  * MIT Licensed.
  */
  
@@ -16,7 +16,7 @@ Module.register("MMM-Chart",{
 	defaults: {
 		// Number ofdata graphlines that you have in your JSON.
 		// All data has to have the same xaxis (horizontal axis).
-		numberOfGraphs: 1,
+		//numberOfGraphs: 1,
 
 		// How long between updates. 
 		updateInterval: 60000,
@@ -53,6 +53,8 @@ Module.register("MMM-Chart",{
 
 		// Format for the unit above.
 		// For more options checkout: http://momentjs.com/docs/#/displaying/format/
+		// Example for second above.
+		//xaxisTimeFormatLabels: "ss",
 		// Example for minute above.
 		//xaxisTimeFormatLabels: "mm",
 		// Example for hour above.
@@ -73,6 +75,12 @@ Module.register("MMM-Chart",{
 
 		// Position of the horizontal scale labels (top, left, bottom and right).
 		xaxisLabelsPosition: "bottom",
+
+		// Add to the graph continuously.
+		additiveGraph: false,
+
+		// Max number of graph data points.
+		graphPoints: 10000,
 		
 		// Show information lables.
 		showGraphLabels: true,
@@ -82,7 +90,7 @@ Module.register("MMM-Chart",{
 		boxFontColor: "rgba(153, 153, 153, 0.6)",
 		boxWidth: 2,
 
-		// Axis color.    R    G    B   Weight
+		// Axis color.     R    G    B   Weight
 		xaxisColor: "rgba(255, 255, 255, 0.1)",
 
 		// Default line bezier curve tension (recommended 0 - 0.4). Set to 0 for no bezier curves.
@@ -207,27 +215,27 @@ Module.register("MMM-Chart",{
 	// Get the needed scripts to make graphs.
 	getScripts: function() {
 		return [
+			// Used by the Chart.js to parse time.
 			this.file('node_modules/moment/min/moment.min.js'),
-			this.file('node_modules/chart.js/dist/Chart.min.js')
+			// Used to create the actual chart.
+			this.file('node_modules/chart.js/dist/Chart.min.js'),
+			// Used to handle the mouse and touch interactions.
+			this.file('node_modules/hammerjs/hammer.min.js'),
+			// Used for interaction with the graph to be able to zoom and pan.
+			this.file('node_modules/chartjs-plugin-zoom/chartjs-plugin-zoom.min.js')
 		]
 	},
 	
 	// Starting up.
 	start: function() {
 		this.scheduleUpdate();
-		this.dataid = 0;
 		this.chartData = {labels: [], datasets: [] }
 		this.config.identifier = this.identifier;
 		
 		// Triggers the get data.
 		this.getData(this.config);
-		
-		// Setup all data variables.
-		for (var q = 0; q < this.config.numberOfGraphs; q++) {
-			this.chartData.datasets[q] = { data:[] };
-		}
 	},
-	
+
 	// Request the graph data.
 	getData: function (data) {
 		this.sendSocketNotification('GET_GRAPH_DATA', data);
@@ -245,22 +253,53 @@ Module.register("MMM-Chart",{
 	
 				// Parsing the JSON data to an array.
 				payload = JSON.parse(payload.body);
+
+				// Show it all!
 				//Log.info('Parsed payload body: ' + JSON.stringify(payload));
 
-				// Reset all data gprah lines.
-				for (var q = 0; q < this.config.numberOfGraphs; q++) {
-					this.chartData.datasets[q] = { data:[] };
+				// Continues draw of graph or not...
+				if (this.config.additiveGraph == true) {
+					// Only reset data on the exsisting graphs.
+					if (typeof this.chartData.datasets[0] === 'undefined' || this.chartData.datasets[0] === null) {
+						// Reset all avaiable data graph lines.
+						for (var q = 0; q < payload[0].length-1; q++) {
+							this.chartData.datasets[q] = { data:[] };
+						}
+					}
+				} else {
+					// Reset all data graph lines.
+					for (var q = 0; q < payload[0].length-1; q++) {
+						this.chartData.datasets[q] = { data:[] };
+					}
 				}
 				
 				// Counting trough the new graph data.
 				for (var i = 0, toI = payload.length; i < toI; i++) {
-					// Setting up the graph "labels".
+/*					// Setting up the graph labels to for all graphs.
+					if (this.config.graphPoints < this.chartData.datasets[0].data.length) {
+						// Removing labels that is out of the scoop.
+						this.chartData.labels.splice(0, 1);
+					}*/
+
+					// Setting up all the labels.
 					this.chartData.labels.push(payload[i][0]);
+					
+					// Cuting off lables if the max value has been reached.
+					if (this.config.graphPoints < this.chartData.labels.length) {
+						// Removing labels that is out of the scoop.
+						this.chartData.labels.splice(0, 1);
+					}
 					
 					// Setting up the graphs data.
 					for (var j = 1, toJ = payload[i].length; j < toJ; j++) {
+						// Only add data to defined graphs.
 						if (typeof this.chartData.datasets[j-1] != 'undefined' || this.chartData.datasets[j-1] != null) {
 							this.chartData.datasets[j-1].data.push(payload[i][j]);
+							// Cuting off data if the max value has been reached.
+							if (this.config.graphPoints < this.chartData.datasets[j-1].data.length) {
+								// Removing data that is out of the scoop.
+								this.chartData.datasets[j-1].data.splice(0, 1);
+							}
 						}
 					}
 				}
@@ -278,21 +317,23 @@ Module.register("MMM-Chart",{
 		if (typeof delay !== "undefined" && delay >= 0) {
 			nextLoad = delay;
 		}
-
+		// Time is up!
 		var self = this;
 		setInterval(function() {
-			self.getData(self.config.url);
+			self.getData(self.config);
 		}, nextLoad);
 	},
 	
 	// Parsing the data and preparing for the graph chart.
 	updateChartData: function() {
 		if(this.myChart !== undefined) {
+			// Adding the labels to the chart.
 			this.myChart.data.labels = this.chartData.labels;
-			//Log.info('Length = ' + this.myChart.data.datasets.length);
+			// Adding the data to the chart.
 			for (var i = 0; i < this.myChart.data.datasets.length && i < this.chartData.datasets.length; i++) {
 				this.myChart.data.datasets[i].data = this.chartData.datasets[i].data;
 			}
+			// Updating the chart.
 			this.myChart.update();
 		}
 	},
@@ -312,10 +353,16 @@ Module.register("MMM-Chart",{
 				position: this.config.showGraphLabelsPosition,
 				labels: {
 					boxWidth: this.config.boxWidth,
-					fontFamily: "Arial",
-					//fontFamily: "Roboto-Black",
 					fontColor: this.config.boxFontColor
 				}
+			},
+			pan: {
+				enabled: true,
+				mode: 'xy'
+			},
+			zoom: {
+				enabled: true,
+			mode: 'xy',
 			},
 			tooltips: {
 				enabled: this.config.tooltipEnabeld,
@@ -461,11 +508,6 @@ Module.register("MMM-Chart",{
 
 		// Creating the actual graph.
 		this.myChart = new Chart(this.ctx, {
-			defaults: {
-				global: {
-					fontSize: 80,
-				}
-			},
 			type: this.config.graphStyle,
 			data: {
 				labels: [],
