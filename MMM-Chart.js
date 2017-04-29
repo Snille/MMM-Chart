@@ -14,21 +14,25 @@ Module.register("MMM-Chart",{
 	//var graph = [],
 	// Default module config.
 	defaults: {
-		// Number ofdata graphlines that you have in your JSON.
-		// All data has to have the same xaxis (horizontal axis).
-		//numberOfGraphs: 1,
-
+		// Graph ID (name)
+		name: "MMM-Chart",
+		
+		// Width of the graph.
+		width: 355,
+		// Height of the graph.
+		height: 170,
+		// Maintain aspect ratio.
+		maintainAspectRatio: true,
+		
 		// How long between updates. 
 		updateInterval: 60000,
 
 		// Animation speed.
 		fadeSpeed: 1000,
-		// Graph size.
-		graphWidth: 300,
-		graphHeight: 200,
 
 		// Type of graph.
 		// For mor information checkout: http://www.chartjs.org/docs/
+		// Warning, I have only really tested with bar and line graphs!
 		graphStyle: "line",
 		//graphStyle: "bar",
 		//graphStyle: "radar",
@@ -121,6 +125,8 @@ Module.register("MMM-Chart",{
 		graphLabelTicks0: true,
 		// Size of the value steps on the scale (0 = Auto).
 		graphScaleStepSize0: 0,
+		// Always begin ticks at zero.
+		graphTicksZero0: false,
 		// Text after the graph example box.
 		graphLabel0: "Dummy A",
 		// Show vertical side label.
@@ -146,6 +152,8 @@ Module.register("MMM-Chart",{
 		graphLabelTicks1: true,
 		// Size of the value steps on the right side (0 = Auto).
 		graphScaleStepSize1: 0,
+		// Always begin ticks at zero.
+		graphTicksZero1: false,
 		// Text after the graph example box.
 		graphLabel1: "Dummy B",
 		// Show vertical side label.
@@ -171,6 +179,8 @@ Module.register("MMM-Chart",{
 		graphLabelTicks2: true,
 		// Size of the value steps on the right side (0 = Auto).
 		graphScaleStepSize2: 0,
+		// Always begin ticks at zero.
+		graphTicksZero2: false,
 		// Text after the graph example box.
 		graphLabel2: "Dummy C",
 		// Show vertical side label.
@@ -196,6 +206,8 @@ Module.register("MMM-Chart",{
 		graphLabelTicks3: true,
 		// Size of the value steps on the right side (0 = Auto).
 		graphScaleStepSize3: 0,
+		// Always begin ticks at zero.
+		graphTicksZero3: false,
 		// Text after the graph example box.
 		graphLabel3: "Dummy D",
 		// Show vertical side label.
@@ -232,6 +244,10 @@ Module.register("MMM-Chart",{
 		this.chartData = {labels: [], datasets: [] }
 		this.config.identifier = this.identifier;
 		
+		if (typeof this.config.url === 'undefined' || this.config.url === null) {
+			Log.error('URL not defined in ' + this.name + ' on graph ' + this.config.name + '.');
+		}
+		
 		// Triggers the get data.
 		this.getData(this.config);
 	},
@@ -241,7 +257,7 @@ Module.register("MMM-Chart",{
 		this.sendSocketNotification('GET_GRAPH_DATA', data);
 	},
 
-	// Getting the grapg data (from all graph modules).
+	// Getting the graph data from helper (all MMM-Chart modules get it).
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "GRAPH_DATA_RESULT") {
 
@@ -257,9 +273,9 @@ Module.register("MMM-Chart",{
 				// Show it all!
 				//Log.info('Parsed payload body: ' + JSON.stringify(payload));
 
-				// Continues draw of graph or not...
+				// Continue to add to a already rendered graph or not...
 				if (this.config.additiveGraph == true) {
-					// Only reset data on the exsisting graphs.
+					// Only reset data if non exsists on graphs.
 					if (typeof this.chartData.datasets[0] === 'undefined' || this.chartData.datasets[0] === null) {
 						// Reset all avaiable data graph lines.
 						for (var q = 0; q < payload[0].length-1; q++) {
@@ -267,7 +283,7 @@ Module.register("MMM-Chart",{
 						}
 					}
 				} else {
-					// Reset all data graph lines.
+					// Reset all data graph lines (non additive graph).
 					for (var q = 0; q < payload[0].length-1; q++) {
 						this.chartData.datasets[q] = { data:[] };
 					}
@@ -281,10 +297,10 @@ Module.register("MMM-Chart",{
 						this.chartData.labels.splice(0, 1);
 					}*/
 
-					// Setting up all the labels.
+					// Setting up the xAxes labels.
 					this.chartData.labels.push(payload[i][0]);
 					
-					// Cuting off lables if the max value has been reached.
+					// Cuting off lables if the max points value has been reached.
 					if (this.config.graphPoints < this.chartData.labels.length) {
 						// Removing labels that is out of the scoop.
 						this.chartData.labels.splice(0, 1);
@@ -295,7 +311,7 @@ Module.register("MMM-Chart",{
 						// Only add data to defined graphs.
 						if (typeof this.chartData.datasets[j-1] != 'undefined' || this.chartData.datasets[j-1] != null) {
 							this.chartData.datasets[j-1].data.push(payload[i][j]);
-							// Cuting off data if the max value has been reached.
+							// Cuting off data if the max points value has been reached.
 							if (this.config.graphPoints < this.chartData.datasets[j-1].data.length) {
 								// Removing data that is out of the scoop.
 								this.chartData.datasets[j-1].data.splice(0, 1);
@@ -341,13 +357,18 @@ Module.register("MMM-Chart",{
 	// Override dom generator.
 	getDom: function() {
 		var wrapper = document.createElement("div");
+		wrapper.className = this.config.name;
 		this.ctx = document.createElement("canvas");
+
+		wrapper.width = this.config.width;
+		wrapper.height = this.config.height;
+		
 		wrapper.appendChild(this.ctx);
 
 		// Graph options.
 		var options = {
 			responsive: true,
-			maintainAspectRatio: true,
+			maintainAspectRatio: this.config.maintainAspectRatio,
 			legend: {
 				display: this.config.showGraphLabels,
 				position: this.config.showGraphLabelsPosition,
@@ -431,6 +452,7 @@ Module.register("MMM-Chart",{
 				},
 				ticks: {
 					stepSize: this.config['graphScaleStepSize' + y],
+					beginAtZero: this.config['graphTicksZero' + y],//true,
 					//minStepSize: 0.2,	
 					fontColor: this.config['graphTickColor' + y],
 					callback: function(val) {

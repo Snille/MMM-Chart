@@ -12,6 +12,8 @@ module.exports = NodeHelper.create ({
 				//console.log(JSON.stringify(data));
 				data.body = body;
 				self.sendSocketNotification('GRAPH_DATA_RESULT', data);
+			} else {
+				console.log("MMM-Chart: The URL is not correct...");
 			}
       });
 	},
