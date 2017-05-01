@@ -14,13 +14,20 @@ Module.register("MMM-Chart",{
 	//var graph = [],
 	// Default module config.
 	defaults: {
+		// Graph default values (for all graphs on the MM).
+		// These can _not_ be set / graph.
+		// ------------------------------------------------
+		// Font size in px.
+		defaultFontSize: 10,
+		// Default MM font.
+		defaultFontFamily: "Roboto, sans-serif",
+		// Default color of the text.
+		defaultFontColor: "#666666",
+		// ------------------------------------------------
+
 		// Graph ID (name)
-		name: "MMM-Chart",
-		
-		// Width of the graph.
-		width: 355,
-		// Height of the graph.
-		height: 170,
+		name: "my-chart",
+
 		// Maintain aspect ratio.
 		maintainAspectRatio: true,
 		
@@ -38,11 +45,8 @@ Module.register("MMM-Chart",{
 		//graphStyle: "radar",
 		//graphStyle: "polarArea",
 		
-		// URL to graph data.
-//		url: "http://10.0.0.20/housedata/index1.php?id=20&max=5&sort=desc",
-//		url: "http://10.0.0.20/housedata/index1.php?id=3&max=144&sort=desc",
-//		url: "http://10.0.0.20/housedata/index2.php?id=9,10&max=5&sort=desc",
-//		url: "http://10.0.0.20/housedata/index2.php?id=13,14,20&max=44&sort=desc",
+		// URL to graph JSON data source.
+		//url: "http://you.have.to.set.this.to.your.JSON.source.in.the.config!",
 
 		// X Axis time unit the graphs should be ploted in.
 		//xaxisTimeUnit: "millisecond",
@@ -291,11 +295,6 @@ Module.register("MMM-Chart",{
 				
 				// Counting trough the new graph data.
 				for (var i = 0, toI = payload.length; i < toI; i++) {
-/*					// Setting up the graph labels to for all graphs.
-					if (this.config.graphPoints < this.chartData.datasets[0].data.length) {
-						// Removing labels that is out of the scoop.
-						this.chartData.labels.splice(0, 1);
-					}*/
 
 					// Setting up the xAxes labels.
 					this.chartData.labels.push(payload[i][0]);
@@ -357,14 +356,18 @@ Module.register("MMM-Chart",{
 	// Override dom generator.
 	getDom: function() {
 		var wrapper = document.createElement("div");
+		// Adding personal name class (fos use in CSS).
 		wrapper.className = this.config.name;
+		// Creating the canvas.
 		this.ctx = document.createElement("canvas");
-
-		wrapper.width = this.config.width;
-		wrapper.height = this.config.height;
-		
+		// Adding the canvas to the document wrapper.
 		wrapper.appendChild(this.ctx);
 
+		// Setting the defaults.
+		Chart.defaults.global.defaultFontSize = this.config.defaultFontSize;
+		Chart.defaults.global.defaultFontFamily = this.config.defaultFontFamily;
+		Chart.defaults.global.defaultFontColor = this.config.defaultFontColor;
+		
 		// Graph options.
 		var options = {
 			responsive: true,
@@ -406,8 +409,7 @@ Module.register("MMM-Chart",{
 						}
 					}
 				}
-			}
-			
+			},
 		};
 		
 		// Start of the Scales.
