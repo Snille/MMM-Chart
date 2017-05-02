@@ -5,23 +5,23 @@
 
 This an extension for the [MagicMirror²](https://magicmirror.builders/).
 
-This Module adds graphs to your mirror using your JSON source(s).
+This Module adds graphs to your mirror using a URL JSON source(s).
 
-### Screen shots
+### Screenshots
 
 Three instanses of the module with multiple graphs in traditional MagicMirror colors (click for short video of graphs updaing):
 
 [![MMM-Chart 3 Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph08.png)](https://youtu.be/BF3O1WppKyg)
 
-Module two line graps in traditional MM colors:
+Module two line graphs in traditional MM colors:
 
 ![MMM-Chart Line Graphs 1](https://github.com/Snille/MMM-Chart/blob/master/.github/graph10.png)
 
-Module two line graps in non traditional MM colors:
+Module two line graphs in non traditional MM colors:
 
 ![MMM-Chart Line Graphs 2](https://github.com/Snille/MMM-Chart/blob/master/.github/graph01.png)
 
-Module two filled graps and a regular line graph in non traditional MM colors:
+Module two filled graphs and a regular line graph in non traditional MM colors:
 
 ![MMM-Chart Filled Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph02.png)
 
@@ -55,9 +55,7 @@ npm install
 
 See some examples below.
  
-There are ALOT of configuration options for this module. You can read inside the MMM-Chart.js file to find out more.
-
-I will add a table here in time. :)
+There are ALOT of configuration options for this module. See below.
 
 OBS: You have to set the width of the graph (with your graph name) in the custom.css file, otherwise you will not see anything!
 
@@ -158,7 +156,7 @@ It's refreshed every other second from the firewall.
 		},
 ````
 
-And to set the size, add in your custom.css file for the above graps.
+And to set the size, add in your custom.css file for the above graphs.
 
 ````CSS
 .inside {
@@ -185,6 +183,7 @@ However, I recomend you to specify your own "look". :)
 |`name`|Graph CSS class ID (name) Needs to be uniqe if you want to be able to set different sizes / module instance.<br><br>**Default value:** `my-chart`|
 |`maintainAspectRatio`|Maintain aspect ratio or not. If set to false you have to provide both width and height in the custome.css (otherwise only width).<br><br>**Default value:** `true`|
 |`updateInterval`|How long in millisecs between updates.<br><br>**Default value:** `60000` (one minute)|
+|`fadeSpeed`|Animation speed.<br><br>**Default value:** `1000`|
 |`graphStyle`|Type of graph. Warning, I have only really tested with "line" and "bar" graphs! For mor information checkout: [Chartjs.org](http://www.chartjs.org/docs/)<br><br>**Default value:** `line`|
 |`xaxisTimeUnit`|X Axis time unit the graphs should be ploted in.<br><br>**Default value:** `hour`|
 |`xaxisTimeFormatLabels`|Format for the unit above.<br>Checkout [momentjs.com](http://momentjs.com/docs/#/displaying/format/) for more information.<br><br>**Default value:** `H`|
