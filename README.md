@@ -9,7 +9,7 @@ This Module adds graphs to your mirror using your JSON source(s).
 
 ### Screen shots
 
-Module with three graphs in traditional MagicMirror colors:
+Module with three graphs in traditional MagicMirror colors (click for short video of graps updaing):
 
 [![MMM-Chart 3 Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph00.png)](https://youtu.be/BF3O1WppKyg)
 
