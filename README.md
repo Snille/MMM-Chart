@@ -15,15 +15,15 @@ Module with three graphs in traditional MagicMirror colors (click for short vide
 
 Module two filled graps and a regular line graph in non traditional MM colors:
 
-![Modulebar Column Symbols](https://github.com/Snille/MMM-Chart/blob/master/.github/graph02.png)
+![MMM-Chart Filled Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph02.png)
 
 Module two line graps in non traditional MM colors:
 
-![Modulebar Column Symbols](https://github.com/Snille/MMM-Chart/blob/master/.github/graph01.png)
+![MMM-Chart Line Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph01.png)
 
-Another vidoe preview:
+Another preview with three graphs in non traditional MagicMirror colors (click for short video of graps updaing):
 
-https://youtu.be/-py3-ztZrOw
+[![MMM-Chart 3 smaller Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph06.png)](https://youtu.be/-py3-ztZrOw)
 
 ### Installation
 
