@@ -35,7 +35,7 @@ Module.register("MMM-Chart",{
 		updateInterval: 60000,
 
 		// Animation speed.
-		fadeSpeed: 1000,
+		//fadeSpeed: 1000,
 
 		// Type of graph.
 		// For mor information checkout: http://www.chartjs.org/docs/
@@ -96,6 +96,7 @@ Module.register("MMM-Chart",{
 		showGraphLabelsPosition: "top",
 		// Box before text.  R    G    B   Weight
 		boxFontColor: "rgba(153, 153, 153, 0.6)",
+		// Width of the box (before the label).
 		boxWidth: 2,
 
 		// Axis color.     R    G    B   Weight
@@ -321,7 +322,7 @@ Module.register("MMM-Chart",{
 				//Log.info('Length = ' + this.chartData.datasets.length);
 				// Update the graphs.
 				this.updateChartData();
-				this.updateDom(self.config.fadeSpeed);
+				//this.updateDom(self.config.fadeSpeed);
 			}
 		}
 	},
