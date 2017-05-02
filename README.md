@@ -9,7 +9,7 @@ This Module adds graphs to your mirror using your JSON source(s).
 
 ### Screen shots
 
-Three instanses of the module with multiple graphs in traditional MagicMirror colors (click for short video of graps updaing):
+Three instanses of the module with multiple graphs in traditional MagicMirror colors (click for short video of graphs updaing):
 
 [![MMM-Chart 3 Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph08.png)](https://youtu.be/BF3O1WppKyg)
 
@@ -25,11 +25,11 @@ Module two filled graps and a regular line graph in non traditional MM colors:
 
 ![MMM-Chart Filled Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph02.png)
 
-Another preview with three instanses of the module in non traditional MagicMirror colors (click for short video of graps updaing):
+Another preview with three instanses of the module in non traditional MagicMirror colors (click for short video of graphs updaing):
 
 [![MMM-Chart 3 smaller Graphs 1](https://github.com/Snille/MMM-Chart/blob/master/.github/graph07.png)](https://youtu.be/-py3-ztZrOw)
 
-The same preview in traditional MagicMirror colors (click for short video of graps updaing):
+The same preview in traditional MagicMirror colors (click for short video of graphs updaing):
 
 [![MMM-Chart 3 smaller Graphs 2](https://github.com/Snille/MMM-Chart/blob/master/.github/graph11.png)](https://youtu.be/2q3GE2t0ePI)
 
