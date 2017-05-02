@@ -23,7 +23,7 @@ Module two line graps in non traditional MM colors:
 
 Another preview with three graphs in non traditional MagicMirror colors (click for short video of graps updaing):
 
-[![MMM-Chart 3 smaller Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph06.png)](https://youtu.be/-py3-ztZrOw)
+[![MMM-Chart 3 smaller Graphs](https://github.com/Snille/MMM-Chart/blob/master/.github/graph07.png)](https://youtu.be/-py3-ztZrOw)
 
 ### Installation
 
