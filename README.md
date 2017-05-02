@@ -1,44 +1,61 @@
 
-Previews:
+# MMM-Chart
 
-https://youtu.be/BF3O1WppKyg
+!!This is a work in progress!!
+
+This an extension for the [MagicMirror²](https://magicmirror.builders/).
+
+This Module adds graphs to your mirror using your JSON source(s).
+
+### Screen shots
+
+Module with three graphs in traditional MagicMirror colors:
+
+![MMM-Chart 3 Graphs(https://github.com/Snille/MMM-Chart/blob/master/.github/graph00.png)](https://youtu.be/BF3O1WppKyg)
+
+Module two filled graps and a regular line graph in non traditional MM colors:
+
+![Modulebar Column Symbols](https://github.com/Snille/MMM-Chart/blob/master/.github/graph02.png)
+
+Module two line graps in non traditional MM colors:
+
+![Modulebar Column Symbols](https://github.com/Snille/MMM-Chart/blob/master/.github/graph01.png)
+
+Another vidoe preview:
 
 https://youtu.be/-py3-ztZrOw
 
-https://youtu.be/yZVpO0qaxCI
+### Installation
 
-This is a work in progress!
-
-````javascript
-		{
-			module: "MMM-Chart",
-			position: "top_center",
-			header: "Chart",
-			config: {
-				// URL that gives a json table back.
-				// Like this [["YYYY-MM-DD HH:mm",floatnumber,floatnumber],["YYYY-MM-DD HH:mm",floatnumber,floatnumber]] Gives two graphs.
-				// Example: [["2017-04-21 15:58:00",8.3,95.5],["2017-04-21 14:55:00",9.3,90.5],["2017-04-21 12:56:00",10.7,87.7],["2017-04-21 11:53:00",10.5,87.7],["2017-04-21 11:01:00",10.6,88.8]]
-
-				// For realtime Graphs use data like this:
-				// Example: [["2017-04-21 15:58:00",8.3,95.5]] <- This will create a two line realtime graph.
-				// And specify the option "additiveGraph: true"
-				
-				name: "my-chart",
-				url: "http://your.json.url.here",
-				graphLabel0: "Temp C",
-				graphLabel1: "Humid %",
-				xaxisTimeUnit: "hour",
-				xaxisTimeFormatLabels: "HH",
-			}
-		},
+In your terminal, go to your MagicMirror's Module folder:
 ````
-Also, you have to set the width of the graph (with your name) in the custom.css file, otherwise you will not see anything.
+cd ~/MagicMirror/modules
+````
+
+Clone this repository:
+````
+git clone https://github.com/Snille/MMM-Chart.git
+````
+
+### Using the module
+
+See some examples below.
+ 
+There are ALOT of configuration options for this module. You can read inside the MMM-Chart.js file to find out more.
+
+I will add a table here in time. :)
+
+OBS: You have to set the width of the graph (with your graph name) in the custom.css file, otherwise you will not see anything!
+
+Like so:
 
 ````css
 .my-chart {
 	width: 355px;
 }
 ````
+
+### Examples
 
 Here are two examples using JSON tables with two graphs each.
 A JSON table like this is used: [["2017-04-21 15:58:00",8.3,95.5],["2017-04-21 14:55:00",9.3,90.5],["2017-04-21 12:56:00",10.7,87.7],["2017-04-21 11:53:00",10.5,87.7],["2017-04-21 11:01:00",10.6,88.8]]
@@ -50,7 +67,7 @@ I'm pulling this table form a database every minute.
 			position: 'middle_center',
 			header: 'Inside temprature over 24 hours',
 			config: {
-				name: "livingroom",
+				name: "inside",
 				url: "http://10.0.0.20/housedata/index2.php?id=3,5&max=24&sort=desc",
 				xaxisLabelTicks: true,
 				maintainAspectRatio: false,
@@ -71,7 +88,7 @@ I'm pulling this table form a database every minute.
 			position: 'middle_center',
 			header: 'Outside temprature over 24 hours',
 			config: {
-				name: "Outside-Month",
+				name: "outside",
 				url: "http://10.0.0.20/housedata/index2.php?id=9,10&max=24&sort=desc",
 				graphStyle: "line",
 				xaxisLabelTicks: true,
@@ -99,7 +116,7 @@ It's refreshed every other second from the firewall.
 			position: 'middle_center',
 			header: 'Traffic on Firewall WAN Interface Last minute',
 			config: {
-				name: "pFSense",
+				name: "firewall",
 				url: "http://10.0.0.20/housedata/firewall.php?interface=wan&in=1&out=1&delay=1",
 				graphStyle: "line",
 				additiveGraph: true,
@@ -125,3 +142,22 @@ It's refreshed every other second from the firewall.
 				graphFillColor2: "rgba(80, 80, 80, 0.4)",
 			}
 		},
+````
+
+And to set the size, add in your custom.css file for the above graps.
+
+````CSS
+.inside {
+	width: 1060px;
+	height: 180px;
+}
+.outside {
+	width: 1060px;
+	height: 180px;
+}
+.firewall {
+	width: 355px;
+}
+````
+
+More information will come...
