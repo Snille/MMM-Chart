@@ -207,7 +207,8 @@ However, I recomend you to specify your own "look". :)
 
 All graph lines uses this set of configureation values. It's only the number at the end of each option that changes for the "next" graph line.
 
-|`**Graph 1**`|What the value is for.|
+| Graph line x | Options description |
+|---|---| 
 |`graphGridColor0`|Dummy Graph 1 Grid color. R G B Weight.<br><br>**Default value:** `rgba(255, 255, 255, 0.1)`|
 |`graphTickColor0`|Dummy Graph 1 Tick color (text on the "sides"). R G B Weight.<br><br>**Default value:** `rgba(120, 120, 255, 0.8)`|
 |`graphLineColor0`|Dummy Graph 1 Line color. R G B Weight.<br><br>**Default value:** `rgba(80, 80, 255, 1)`|
