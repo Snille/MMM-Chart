@@ -70,7 +70,7 @@ Like so:
 ### Examples
 
 Here are two examples using JSON tables with two graphs each.
-A JSON table like this is used: [["2017-04-21 15:58:00",8.3,95.5],["2017-04-21 14:55:00",9.3,90.5],["2017-04-21 12:56:00",10.7,87.7],["2017-04-21 11:53:00",10.5,87.7],["2017-04-21 11:01:00",10.6,88.8]]
+A JSON table like this is used: [["2017-04-21 15:58:00",8.3,95.5],["2017-04-21 14:55:00",9.3,90.5],["2017-04-21 12:56:00",10.7,87.7],["2017-04-21 11:53:00",10.5,87.7],["2017-04-21 11:01:00",10.6,88.8]]...
 I'm pulling this table form a database every minute.
 
 ````javascript
@@ -118,7 +118,7 @@ I'm pulling this table form a database every minute.
 			}
 		},
 ````
-Here is an example using a JSON source with three graphs for realtime graphs.
+Here is an example using a JSON source with three graph lines for realtime graphs.
 The JSON data looks like this: [["2017-04-21 15:58:00",48.3,95.5,31]]
 It's refreshed every other second from the firewall.
 
@@ -174,9 +174,6 @@ And to set the size, add in your custom.css file for the above graphs.
 
 ### Configuration Options
 
-Default in the config I have "pre defined" 4 "Dummy Graphs lines". If you don't specify antthing, that information will be used.
-However, I recomend you to specify your own "look". :)
-
 | Option | Description |
 |---|---| 
 |`url`|**Required** The URL to the graph JSON data source. You HAVE to set this!<br><br>**Default value:** `none`|
@@ -204,7 +201,11 @@ However, I recomend you to specify your own "look". :)
 |`tooltipTitleFontColor`|Tooltip title font color. R G B Weight.<br><br>**Default value:** `rgba(255, 255, 255, 1)`|
 |`tooltipDisplayColorsBoxes`|Display color boxes infront of the tooltip text.<br><br>**Default value:** `true`|
 
-All graph lines uses this set of configureation values. It's only the number at the end of each option that changes for the "next" graph line.
+Default in the config I have "pre defined" 4 "Dummy Graph lines". If you don't specify antthing, that information will be used. However, I recomend you to specify your own "look". :) 
+
+The four pre defined graph lines is not a "limit", just examples. You can if you want (re)define more graph lines, just add on to the number behind the option.
+
+All graph lines uses this set of configureation options. It's only the number at the end of each option that changes for the "next" graph line.
 
 | Graph line x | Options description |
 |---|---| 
