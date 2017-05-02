@@ -174,4 +174,53 @@ And to set the size, add in your custom.css file for the above graps.
 }
 ````
 
-More information will come...
+### Configuration Options
+
+Default in the config I have "pre defined" 4 "Dummy Graphs lines". If you don't specify antthing, that information will be used.
+However, I recomend you to specify your own "look". :)
+
+| Option | Description |
+|---|---| 
+|`url`|**Required** The URL to the graph JSON data source. You HAVE to set this!<br><br>**Default value:** `none`|
+|`name`|Graph CSS class ID (name) Needs to be uniqe if you want to be able to set different sizes / module instance.<br><br>**Default value:** `my-chart`|
+|`maintainAspectRatio`|Maintain aspect ratio or not. If set to false you have to provide both width and height in the custome.css (otherwise only width).<br><br>**Default value:** `true`|
+|`updateInterval`|How long in millisecs between updates.<br><br>**Default value:** `60000` (one minute)|
+|`graphStyle`|Type of graph. Warning, I have only really tested with "line" and "bar" graphs! For mor information checkout: [Chartjs.org](http://www.chartjs.org/docs/)<br><br>**Default value:** `line`|
+|`xaxisTimeUnit`|X Axis time unit the graphs should be ploted in.<br><br>**Default value:** `hour`|
+|`xaxisTimeFormatLabels`|Format for the unit above.<br>Checkout [momentjs.com](http://momentjs.com/docs/#/displaying/format/) for more information.<br><br>**Default value:** `H`|
+|`xaxisType`|Available: "category", "linear", "logarithmic", "time", "radialLinear" (you have to use one that works with your data).<br>[Chartjs.org](http://www.chartjs.org/docs/) for more information.<br><br>**Default value:** `time`|
+|`xaxisLabelTicks`|Display X-Axis ticks.<br><br>**Default value:** `true`|
+|`xaxisLabelsPosition`|Position of the horizontal scale labels (top, left, bottom and right).<br><br>**Default value:** `bottom`|
+|`additiveGraph`|Add to the graph continuously. Set to true if you want a "real time" updateing graph. Your JSON source should look something like this: [["2017-04-21 15:58:00",48.3,95.5,31]]<br><br>**Default value:** `false`|
+|`graphPoints`|Max number of graph data points. If you use a "real time" graph, you should define how many points you want to see in the graph. If you update once every 5 second and you want 5 minutes of data to be shown it's 60. (60 secs * 5 minutes / 5 secs) :)<br><br>**Default value:** `10000`|
+|`showGraphLabels`|Show information lables.<br><br>**Default value:** `true`|
+|`showGraphLabelsPosition`|Position of information lables (top, left, bottom and right).<br><br>**Default value:** `top`|
+|`boxFontColor`Box before text. R G B Weight.<br><br>**Default value:** `rgba(153, 153, 153, 0.6)`|
+|`boxWidth`|Width of the box (before the label).<br><br>**Default value:** `2`|
+|`xaxisColor`|Axis color. R G B Weight.<br><br>**Default value:** `rgba(255, 255, 255, 0.1)`|
+|`lineTension`| Default line bezier curve tension (recommended 0 - 0.4). Set to 0 for no bezier curves.<br><br>**Default value:** `0.2`|
+|`tooltipEnabeld`|Tooltips enebeld/disabeld (displays if hoovering over tha graph points).<br><br>**Default value:** `true`|
+|`tooltipBackgroundColor`|Tooltip background. R G B Weight.<br><br>**Default value:** `rgba(0, 0, 0, 0.8)`|
+|`tooltipBodyFontColor`|Tooltip body font color. R G B Weight.<br><br>**Default value:** `rgba(255, 255, 255, 1)`|
+|`tooltipTitleFontColor`|Tooltip title font color. R G B Weight.<br><br>**Default value:** `rgba(255, 255, 255, 1)`|
+|`tooltipDisplayColorsBoxes`|Display color boxes infront of the tooltip text.<br><br>**Default value:** `true`|
+
+All graph lines uses this set of configureation values. It's only the number at the end of each option that changes for the "next" graph line.
+
+|`**Graph 1**`|What the value is for.|
+|`graphGridColor0`|Dummy Graph 1 Grid color. R G B Weight.<br><br>**Default value:** `rgba(255, 255, 255, 0.1)`|
+|`graphTickColor0`|Dummy Graph 1 Tick color (text on the "sides"). R G B Weight.<br><br>**Default value:** `rgba(120, 120, 255, 0.8)`|
+|`graphLineColor0`|Dummy Graph 1 Line color. R G B Weight.<br><br>**Default value:** `rgba(80, 80, 255, 1)`|
+|`graphFillColor0`|Dummy Graph 1 Fill color. R G B Weight.<br><br>**Default value:** `rgba(80, 80, 255, 0.4)`|
+|`graphFill0`|Fill Graph 1 or not.<br><br>**Default value:** `false`|
+|`graphBorderWidth0`|Line border width.<br><br>**Default value:** `2`|
+|`graphScalePos0`|Scale position (ticks) "left" or "right".<br><br>**Default value:** `left`|
+|`graphLabelTicks0`|Display Y-Axis ticks.<br><br>**Default value:** `true`|
+|`graphScaleStepSize0`|Size of the value steps on the scale (ticks) (0 = Auto).<br><br>**Default value:** `0`|
+|`graphTicksZero0`|Always begin ticks at zero.<br><br>**Default value:** `false`|
+|`graphLabel0`|Text after the graph example box.<br><br>**Default value:** `Dummy A`|
+|`graphShowScaleLabel0`|Show vertical side label on the scale (beside the ticks).<br><br>**Default value:** `false`|
+|`graphTextScaleLabel0`|The text on the vertical label.<br><br>**Default value:** `Dummy A`|
+|`graphstacked0`|Stack the graphs.<br><br>**Default value:** `false`|
+
+The dummy graph lines has just minor differences in the options, ex. color, where to put the ticks (left or right) and the labels. You have to configure the set of options for each graph line that you want to use for your graph.
