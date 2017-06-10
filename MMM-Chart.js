@@ -249,7 +249,7 @@ Module.register("MMM-Chart",{
 		this.chartData = {labels: [], datasets: [] }
 		this.config.identifier = this.identifier;
 		
-		if (typeof this.config.url === 'undefined' || this.config.url === null) {
+		if (typeof this.config.url == 'undefined' || this.config.url === null) {
 			Log.error('URL not defined in ' + this.name + ' on graph ' + this.config.name + '.');
 		}
 		
@@ -281,7 +281,7 @@ Module.register("MMM-Chart",{
 				// Continue to add to a already rendered graph or not...
 				if (this.config.additiveGraph == true) {
 					// Only reset data if non exsists on graphs.
-					if (typeof this.chartData.datasets[0] === 'undefined' || this.chartData.datasets[0] === null) {
+					if (typeof this.chartData.datasets[0] == 'undefined' || this.chartData.datasets[0] === null) {
 						// Reset all avaiable data graph lines.
 						for (var q = 0; q < payload[0].length-1; q++) {
 							this.chartData.datasets[q] = { data:[] };
@@ -309,7 +309,7 @@ Module.register("MMM-Chart",{
 					// Setting up the graphs data.
 					for (var j = 1, toJ = payload[i].length; j < toJ; j++) {
 						// Only add data to defined graphs.
-						if (typeof this.chartData.datasets[j-1] != 'undefined' || this.chartData.datasets[j-1] != null) {
+						if (this.chartData.datasets[j-1] !== 'undefined' || this.chartData.datasets[j-1] != null) {
 							this.chartData.datasets[j-1].data.push(payload[i][j]);
 							// Cuting off data if the max points value has been reached.
 							if (this.config.graphPoints < this.chartData.datasets[j-1].data.length) {
@@ -330,7 +330,7 @@ Module.register("MMM-Chart",{
 	// Updating routine.
 	scheduleUpdate: function(delay) {
 		var nextLoad = this.config.updateInterval;
-		if (typeof delay !== "undefined" && delay >= 0) {
+		if (typeof delay !== 'undefined' && delay >= 0) {
 			nextLoad = delay;
 		}
 		// Time is up!
@@ -342,7 +342,7 @@ Module.register("MMM-Chart",{
 	
 	// Parsing the data and preparing for the graph chart.
 	updateChartData: function() {
-		if(this.myChart !== undefined) {
+		if(this.myChart !== 'undefined') {
 			// Adding the labels to the chart.
 			this.myChart.data.labels = this.chartData.labels;
 			// Adding the data to the chart.
