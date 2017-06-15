@@ -18,7 +18,7 @@ Module.register("MMM-Chart",{
 		// These can _not_ be set / graph.
 		// ------------------------------------------------
 		// Font size in px.
-		defaultFontSize: 10,
+		defaultFontSize: 12,
 		// Default MM font.
 		defaultFontFamily: "Roboto, sans-serif",
 		// Default color of the text.
@@ -249,7 +249,7 @@ Module.register("MMM-Chart",{
 		this.chartData = {labels: [], datasets: [] }
 		this.config.identifier = this.identifier;
 		
-		if (typeof this.config.url == 'undefined' || this.config.url === null) {
+		if (typeof this.config.url === 'undefined' || this.config.url === null) {
 			Log.error('URL not defined in ' + this.name + ' on graph ' + this.config.name + '.');
 		}
 		
@@ -292,6 +292,7 @@ Module.register("MMM-Chart",{
 					for (var q = 0; q < payload[0].length-1; q++) {
 						this.chartData.datasets[q] = { data:[] };
 					}
+
 				}
 				
 				// Counting trough the new graph data.
@@ -301,9 +302,9 @@ Module.register("MMM-Chart",{
 					this.chartData.labels.push(payload[i][0]);
 					
 					// Cuting off lables if the max points value has been reached.
-					if (this.config.graphPoints < this.chartData.labels.length) {
+					if (this.config.graphPoints < this.chartData.labels.length || this.chartData.datasets[1-1].data.length < this.chartData.labels.length) {
 						// Removing labels that is out of the scoop.
-						this.chartData.labels.splice(0, 1);
+							this.chartData.labels.splice(0, 1);
 					}
 					
 					// Setting up the graphs data.
@@ -320,8 +321,10 @@ Module.register("MMM-Chart",{
 					}
 				}
 				//Log.info('Length = ' + this.chartData.datasets.length);
+				//Log.info('Data = ' + this.chartData.datasets);
+				//Log.info('Lbels = ' + this.chartData.labels);
 				// Update the graphs.
-				this.updateChartData();
+				//this.updateChartData();
 				this.updateDom(self.config.fadeSpeed);
 			}
 		}
