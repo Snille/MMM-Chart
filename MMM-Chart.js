@@ -281,7 +281,7 @@ Module.register("MMM-Chart",{
 				// Continue to add to a already rendered graph or not...
 				if (this.config.additiveGraph == true) {
 					// Only reset data if non exsists on graphs.
-					if (typeof this.chartData.datasets[0] == 'undefined' || this.chartData.datasets[0] === null) {
+					if (typeof this.chartData.datasets[0] === 'undefined' || this.chartData.datasets[0] === null) {
 						// Reset all avaiable data graph lines.
 						for (var q = 0; q < payload[0].length-1; q++) {
 							this.chartData.datasets[q] = { data:[] };
@@ -309,7 +309,7 @@ Module.register("MMM-Chart",{
 					// Setting up the graphs data.
 					for (var j = 1, toJ = payload[i].length; j < toJ; j++) {
 						// Only add data to defined graphs.
-						if (this.chartData.datasets[j-1] !== 'undefined' || this.chartData.datasets[j-1] != null) {
+						if (this.chartData.datasets[j-1] !== 'undefined' || this.chartData.datasets[j-1] !== null) {
 							this.chartData.datasets[j-1].data.push(payload[i][j]);
 							// Cuting off data if the max points value has been reached.
 							if (this.config.graphPoints < this.chartData.datasets[j-1].data.length) {
