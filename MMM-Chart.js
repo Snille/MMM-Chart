@@ -232,8 +232,6 @@ Module.register("MMM-Chart",{
 	// Get the needed scripts to make graphs.
 	getScripts: function() {
 		return [
-			// Used by the Chart.js to parse time.
-			this.file('node_modules/moment/min/moment.min.js'),
 			// Used to create the actual chart.
 			this.file('node_modules/chart.js/dist/Chart.min.js'),
 			// Used to handle the mouse and touch interactions.
