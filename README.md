@@ -1,7 +1,7 @@
 
 # MMM-Chart
 
-!!This is a work in progress!!
+!!This module is NOT developed any longer, please fork it if you want to fix it!!
 
 This an extension for the [MagicMirror²](https://magicmirror.builders/).
 
